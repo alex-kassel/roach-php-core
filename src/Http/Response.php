@@ -36,14 +36,14 @@ final class Response implements DroppableInterface
     ) {
     }
 
-    public function getCrawler(): Crawler
-    {
-        return $this->crawler ??= new Crawler((string) $this->response->getBody(), $this->request->getUri());
-    }
-
     public function __call(string $method, array $args): mixed
     {
         return $this->getCrawler()->{$method}(...$args);
+    }
+
+    public function getCrawler(): Crawler
+    {
+        return $this->crawler ??= new Crawler((string) $this->response->getBody(), $this->request->getUri());
     }
 
     public function getRequest(): Request

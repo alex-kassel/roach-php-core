@@ -16,7 +16,6 @@ namespace RoachPHP\Tests\Http;
 use GuzzleHttp\Psr7\Stream;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use ReflectionProperty;
 use RoachPHP\Http\Response;
 use RoachPHP\Support\DroppableInterface;
 use RoachPHP\Testing\Concerns\InteractsWithRequestsAndResponses;
@@ -132,9 +131,9 @@ final class ResponseTest extends TestCase
 
     public function testDomCrawlerIsLazyLoadedOnDemand(): void
     {
-        $response = $this->makeResponse(body: '{"status":"ok"}');
+        $response = $this->makeResponse(body: '<html lang="en"><body></body></html>');
 
-        $crawlerProperty = new ReflectionProperty(Response::class, 'crawler');
+        $crawlerProperty = new \ReflectionProperty(Response::class, 'crawler');
 
         self::assertNull($crawlerProperty->getValue($response));
 
