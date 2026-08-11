@@ -14,11 +14,14 @@ declare(strict_types=1);
 namespace RoachPHP\Tests\Http;
 
 use GuzzleHttp\Psr7\Stream;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 use RoachPHP\Http\Response;
 use RoachPHP\Support\DroppableInterface;
 use RoachPHP\Testing\Concerns\InteractsWithRequestsAndResponses;
 use RoachPHP\Tests\Support\DroppableTestCase;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * @internal
@@ -37,6 +40,7 @@ final class ResponseTest extends TestCase
         self::assertCount(1, $links);
     }
 
+    #[DataProvider('responseCodeProvider')]
     /**
      * @dataProvider responseCodeProvider
      */
@@ -60,6 +64,7 @@ final class ResponseTest extends TestCase
         ];
     }
 
+    #[DataProvider('responseBodyProvider')]
     /**
      * @dataProvider responseBodyProvider
      */
@@ -129,9 +134,12 @@ final class ResponseTest extends TestCase
     {
         $response = $this->makeResponse(body: '{"status":"ok"}');
 
-        self::assertSame('{"status":"ok"}', $response->getBody());
-        self::assertSame(200, $response->getStatus());
+        $crawlerProperty = new ReflectionProperty(Response::class, 'crawler');
+
+        self::assertNull($crawlerProperty->getValue($response));
+
         self::assertSame(0, $response->filter('p')->count());
+        self::assertInstanceOf(Crawler::class, $crawlerProperty->getValue($response));
     }
 
     protected function createDroppable(): DroppableInterface

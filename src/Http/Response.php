@@ -25,8 +25,8 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 final class Response implements DroppableInterface
 {
-    use HasMetaData;
     use Droppable;
+    use HasMetaData;
 
     private ?Crawler $crawler = null;
 
