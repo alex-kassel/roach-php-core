@@ -85,6 +85,7 @@ final class ResponseTest extends TestCase
 
             'stream' => [static function (string $body) {
                 $stream = \fopen('php://memory', 'r+b');
+                self::assertIsResource($stream);
                 \fwrite($stream, $body);
                 \rewind($stream);
 
@@ -93,6 +94,7 @@ final class ResponseTest extends TestCase
 
             'StreamInterface' => [static function (string $body) {
                 $stream = \fopen('php://memory', 'r+b');
+                self::assertIsResource($stream);
                 \fwrite($stream, $body);
                 \rewind($stream);
 
