@@ -125,6 +125,15 @@ final class ResponseTest extends TestCase
         self::assertSame('New', $response->filter('p')->text(''));
     }
 
+    public function testDomCrawlerIsLazyLoadedOnDemand(): void
+    {
+        $response = $this->makeResponse(body: '{"status":"ok"}');
+
+        self::assertSame('{"status":"ok"}', $response->getBody());
+        self::assertSame(200, $response->getStatus());
+        self::assertSame(0, $response->filter('p')->count());
+    }
+
     protected function createDroppable(): DroppableInterface
     {
         return $this->makeResponse(
