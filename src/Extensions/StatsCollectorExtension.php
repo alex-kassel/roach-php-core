@@ -49,8 +49,7 @@ final class StatsCollectorExtension implements ExtensionInterface
     public function __construct(
         private LoggerInterface $logger,
         private ClockInterface $clock,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {
@@ -71,7 +70,7 @@ final class StatsCollectorExtension implements ExtensionInterface
 
     public function onRunFinished(): void
     {
-        if (null !== $this->startTime) {
+        if ($this->startTime !== null) {
             $duration = $this->startTime->diff($this->clock->now());
             $this->stats['duration'] = $duration->format('%H:%I:%S');
         }
@@ -81,23 +80,23 @@ final class StatsCollectorExtension implements ExtensionInterface
 
     public function onRequestSending(RequestSending $event): void
     {
-        if (!$event->request->wasDropped()) {
-            ++$this->stats['requests.sent'];
+        if (! $event->request->wasDropped()) {
+            $this->stats['requests.sent']++;
         }
     }
 
     public function onRequestDropped(): void
     {
-        ++$this->stats['requests.dropped'];
+        $this->stats['requests.dropped']++;
     }
 
     public function onItemDropped(): void
     {
-        ++$this->stats['items.dropped'];
+        $this->stats['items.dropped']++;
     }
 
     public function onItemScraped(): void
     {
-        ++$this->stats['items.scraped'];
+        $this->stats['items.scraped']++;
     }
 }

@@ -17,9 +17,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Factory\AppFactory;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__.'/../../vendor/autoload.php';
 
-const LOG_PATH = __DIR__ . '/tmp/crawled.json';
+const LOG_PATH = __DIR__.'/tmp/crawled.json';
 
 $app = AppFactory::create();
 
@@ -31,7 +31,7 @@ $app->add(static function (ServerRequestInterface $request, RequestHandlerInterf
         return $handler->handle($request);
     }
 
-    if (!\file_exists(LOG_PATH)) {
+    if (! \file_exists(LOG_PATH)) {
         \file_put_contents(LOG_PATH, '{}');
     }
 
@@ -46,12 +46,12 @@ $app->add(static function (ServerRequestInterface $request, RequestHandlerInterf
         $logs = [];
     }
 
-    if (!isset($logs[$path])) {
+    if (! isset($logs[$path])) {
         $logs[$path] = 0;
     }
 
-    ++$logs[$path];
-    \file_put_contents(__DIR__ . '/tmp/crawled.json', \json_encode($logs, \JSON_THROW_ON_ERROR));
+    $logs[$path]++;
+    \file_put_contents(__DIR__.'/tmp/crawled.json', \json_encode($logs, \JSON_THROW_ON_ERROR));
 
     return $handler->handle($request);
 });
@@ -65,7 +65,7 @@ $app->get('/ping', static function (Request $request, Response $response, $args)
 $app->get('/crawled-routes', static function (Request $request, Response $response, $args): Response {
     $stats = \file_get_contents(LOG_PATH);
 
-    if (false === $stats) {
+    if ($stats === false) {
         $stats = '{}';
     }
 

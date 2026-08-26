@@ -26,9 +26,7 @@ final class ItemPipeline implements ItemPipelineInterface
      */
     private array $processors = [];
 
-    public function __construct(private EventDispatcherInterface $eventDispatcher)
-    {
-    }
+    public function __construct(private EventDispatcherInterface $eventDispatcher) {}
 
     public function setProcessors(ItemProcessorInterface ...$processors): ItemPipelineInterface
     {
@@ -40,7 +38,7 @@ final class ItemPipeline implements ItemPipelineInterface
     public function sendItem(ItemInterface $item): ItemInterface
     {
         foreach ($this->processors as $processor) {
-            if ($processor instanceof ConditionalItemProcessor && !$processor->shouldHandle($item)) {
+            if ($processor instanceof ConditionalItemProcessor && ! $processor->shouldHandle($item)) {
                 continue;
             }
 

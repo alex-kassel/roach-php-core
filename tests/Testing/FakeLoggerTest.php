@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace RoachPHP\Tests\Testing;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RoachPHP\Testing\FakeLogger;
 
@@ -24,13 +25,12 @@ use RoachPHP\Testing\FakeLogger;
 final class FakeLoggerTest extends TestCase
 {
     /**
-     * @dataProvider logMessageProvider
-     *
-     * @param array<array-key, mixed> $context
-     */
-    public function testCheckIfSpecificMessageWasLoggedAtLevel(string $level, string $message, array $context): void
+     * @param  array<array-key, mixed>  $context
+     **/
+    #[DataProvider('logMessageProvider')]
+    public function test_check_if_specific_message_was_logged_at_level(string $level, string $message, array $context): void
     {
-        $logger = new FakeLogger();
+        $logger = new FakeLogger;
 
         self::assertFalse($logger->messageWasLogged($level, $message));
 
@@ -40,13 +40,12 @@ final class FakeLoggerTest extends TestCase
     }
 
     /**
-     * @dataProvider logMessageProvider
-     *
-     * @param array<array-key, mixed> $context
-     */
-    public function testCheckIfMessageWasLoggedWithContext(string $level, string $message, array $context): void
+     * @param  array<array-key, mixed>  $context
+     **/
+    #[DataProvider('logMessageProvider')]
+    public function test_check_if_message_was_logged_with_context(string $level, string $message, array $context): void
     {
-        $logger = new FakeLogger();
+        $logger = new FakeLogger;
 
         $logger->{$level}($message, []);
         self::assertFalse($logger->messageWasLogged($level, $message, $context));

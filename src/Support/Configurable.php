@@ -22,8 +22,7 @@ trait Configurable
     private array $resolvedOptions = [];
 
     /**
-     * @param array<string, mixed> $options
-     *
+     * @param  array<string, mixed>  $options
      * @return array{0: class-string, 1: array<string, mixed>}
      */
     public static function withOptions(array $options): array
@@ -32,7 +31,7 @@ trait Configurable
     }
 
     /**
-     * @param array<string, mixed> $options
+     * @param  array<string, mixed>  $options
      */
     final public function configure(array $options): void
     {
@@ -40,7 +39,7 @@ trait Configurable
             return;
         }
 
-        $resolver = new OptionsResolver();
+        $resolver = new OptionsResolver;
 
         $resolver->setDefaults($this->defaultOptions());
 
@@ -52,7 +51,7 @@ trait Configurable
 
     public function option(string $key): mixed
     {
-        if (!$this->optionsResolved) {
+        if (! $this->optionsResolved) {
             $this->configure([]);
         }
 
@@ -72,7 +71,5 @@ trait Configurable
      * time. This is a good place to perform any one-time setup that should
      * happen before the run starts.
      */
-    private function onAfterConfigured(): void
-    {
-    }
+    private function onAfterConfigured(): void {}
 }

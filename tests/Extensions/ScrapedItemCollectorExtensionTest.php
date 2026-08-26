@@ -22,7 +22,7 @@ use RoachPHP\ItemPipeline\Item;
  */
 final class ScrapedItemCollectorExtensionTest extends ExtensionTestCase
 {
-    public function testCollectsScrapedItems(): void
+    public function test_collects_scraped_items(): void
     {
         $this->extension->configure([]);
 
@@ -36,6 +36,6 @@ final class ScrapedItemCollectorExtensionTest extends ExtensionTestCase
 
     protected function createExtension(): ScrapedItemCollectorExtension
     {
-        return new ScrapedItemCollectorExtension();
+        return new ScrapedItemCollectorExtension;
     }
 }

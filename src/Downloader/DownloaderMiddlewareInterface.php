@@ -16,6 +16,4 @@ namespace RoachPHP\Downloader;
 use RoachPHP\Downloader\Middleware\RequestMiddlewareInterface;
 use RoachPHP\Downloader\Middleware\ResponseMiddlewareInterface;
 
-interface DownloaderMiddlewareInterface extends RequestMiddlewareInterface, ResponseMiddlewareInterface
-{
-}
+interface DownloaderMiddlewareInterface extends RequestMiddlewareInterface, ResponseMiddlewareInterface {}

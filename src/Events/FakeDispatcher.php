@@ -38,7 +38,7 @@ final class FakeDispatcher extends EventDispatcher
     {
         Assert::assertArrayHasKey($eventName, $this->dispatchedEvents);
 
-        if (null !== $callback) {
+        if ($callback !== null) {
             foreach ($this->dispatchedEvents[$eventName] as $event) {
                 if ($callback($event)) {
                     return;

@@ -32,7 +32,7 @@ final class HttpErrorMiddlewareTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->logger = new FakeLogger();
+        $this->logger = new FakeLogger;
         $this->middleware = new HttpErrorMiddleware($this->logger);
     }
 
@@ -111,7 +111,7 @@ final class HttpErrorMiddlewareTest extends TestCase
     }
 
     #[DataProvider('successfulHTTPStatus')]
-    public function testAllowResponseWithSuccessfulHTTPStatus(int $status): void
+    public function test_allow_response_with_successful_http_status(int $status): void
     {
         $response = $this->makeResponse(status: $status);
         $this->middleware->configure([]);
@@ -123,7 +123,7 @@ final class HttpErrorMiddlewareTest extends TestCase
     }
 
     #[DataProvider('unsuccessfulHTTPStatus')]
-    public function testDropResponseWithNonSuccessfulHTTPStatus(int $status): void
+    public function test_drop_response_with_non_successful_http_status(int $status): void
     {
         $response = $this->makeResponse(status: $status);
         $this->middleware->configure([]);
@@ -134,7 +134,7 @@ final class HttpErrorMiddlewareTest extends TestCase
         self::assertTrue($result->wasDropped());
     }
 
-    public function testLogDroppedResponses(): void
+    public function test_log_dropped_responses(): void
     {
         $request = $this->makeRequest('https://example.com');
         $response = $this->makeResponse(request: $request, status: 400);
@@ -151,7 +151,7 @@ final class HttpErrorMiddlewareTest extends TestCase
         );
     }
 
-    public function testDontLogAllowedResponses(): void
+    public function test_dont_log_allowed_responses(): void
     {
         $response = $this->makeResponse(status: 200);
         $this->middleware->configure([]);
@@ -166,7 +166,7 @@ final class HttpErrorMiddlewareTest extends TestCase
         );
     }
 
-    public function testAllowResponsesWithCustomAllowedStatuses(): void
+    public function test_allow_responses_with_custom_allowed_statuses(): void
     {
         $response = $this->makeResponse(status: 404);
         $this->middleware->configure(['handleStatus' => [404]]);

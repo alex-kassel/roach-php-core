@@ -28,9 +28,9 @@ final class FakeHandlerTest extends TestCase
 {
     use InteractsWithRequestsAndResponses;
 
-    public function testReturnsResponseUnchangedByDefault(): void
+    public function test_returns_response_unchanged_by_default(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $response = $this->makeResponse($this->makeRequest());
 
         $actual = $handler->handleResponse($response);
@@ -38,9 +38,9 @@ final class FakeHandlerTest extends TestCase
         self::assertEquals($response, $actual);
     }
 
-    public function testReturnsItemUnchangedByDefault(): void
+    public function test_returns_item_unchanged_by_default(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $response = $this->makeResponse($this->makeRequest());
         $item = new Item(['::key::' => '::value::']);
 
@@ -49,9 +49,9 @@ final class FakeHandlerTest extends TestCase
         self::assertEquals($item, $actual);
     }
 
-    public function testReturnsRequestUnchangedByDefault(): void
+    public function test_returns_request_unchanged_by_default(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $request = $this->makeRequest();
         $response = $this->makeResponse($this->makeRequest());
 
@@ -60,7 +60,7 @@ final class FakeHandlerTest extends TestCase
         self::assertEquals($request, $actual);
     }
 
-    public function testCallsConfiguredResponseCallbackIfProvided(): void
+    public function test_calls_configured_response_callback_if_provided(): void
     {
         $handler = new FakeHandler(static function (Response $response) {
             return $response->withMeta('::key::', '::value::');
@@ -72,7 +72,7 @@ final class FakeHandlerTest extends TestCase
         self::assertSame($result->getMeta('::key::'), '::value::');
     }
 
-    public function testCallsConfiguredItemCallbackIfProvided(): void
+    public function test_calls_configured_item_callback_if_provided(): void
     {
         $handler = new FakeHandler(
             null,
@@ -88,7 +88,7 @@ final class FakeHandlerTest extends TestCase
         self::assertSame('::new-value::', $actual->get('::key::'));
     }
 
-    public function testCallsConfiguredRequestCallbackIfProvided(): void
+    public function test_calls_configured_request_callback_if_provided(): void
     {
         $handler = new FakeHandler(
             handleRequestCallback: static fn ($request) => $request->withMeta('::key::', '::value::'),
@@ -101,9 +101,9 @@ final class FakeHandlerTest extends TestCase
         self::assertSame('::value::', $actual->getMeta('::key::'));
     }
 
-    public function testAssertResponseHandledPassesWhenHandlerWasCalledWithResponse(): void
+    public function test_assert_response_handled_passes_when_handler_was_called_with_response(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $response = $this->makeResponse($this->makeRequest());
 
         $handler->handleResponse($response);
@@ -111,18 +111,18 @@ final class FakeHandlerTest extends TestCase
         $handler->assertResponseHandled($response);
     }
 
-    public function testAssertResponseHandledFailsWhenHandlerWasNotCalledAtAll(): void
+    public function test_assert_response_handled_fails_when_handler_was_not_called_at_all(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $response = $this->makeResponse($this->makeRequest());
 
         $this->expectException(AssertionFailedError::class);
         $handler->assertResponseHandled($response);
     }
 
-    public function testAssertResponseHandledFailsWhenHandlerWasNotCalledWithResponse(): void
+    public function test_assert_response_handled_fails_when_handler_was_not_called_with_response(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $response = $this->makeResponse($this->makeRequest('::url-a::'));
         $otherResponse = $this->makeResponse($this->makeRequest('::url-b::'));
 
@@ -132,9 +132,9 @@ final class FakeHandlerTest extends TestCase
         $handler->assertResponseHandled($response);
     }
 
-    public function testAssertItemHandledPassesWhenHandlerWasCalledWithResponse(): void
+    public function test_assert_item_handled_passes_when_handler_was_called_with_response(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $item = new Item([]);
         $response = $this->makeResponse($this->makeRequest());
 
@@ -143,18 +143,18 @@ final class FakeHandlerTest extends TestCase
         $handler->assertItemHandled($item);
     }
 
-    public function testAssertItemHandledFailsWhenHandlerWasNotCalledAtAll(): void
+    public function test_assert_item_handled_fails_when_handler_was_not_called_at_all(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $item = new Item([]);
 
         $this->expectException(AssertionFailedError::class);
         $handler->assertItemHandled($item);
     }
 
-    public function testAssertItemHandledFailsWhenHandlerWasNotCalledWithResponse(): void
+    public function test_assert_item_handled_fails_when_handler_was_not_called_with_response(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $item = new Item(['::key-1::' => '::value-1::']);
         $otherItem = new Item(['::key-2::' => '::value-2::']);
         $response = $this->makeResponse($this->makeRequest());
@@ -165,9 +165,9 @@ final class FakeHandlerTest extends TestCase
         $handler->assertItemHandled($item);
     }
 
-    public function testAssertResponseNotHandled(): void
+    public function test_assert_response_not_handled(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $response = $this->makeResponse($this->makeRequest('::url-a::'));
         $otherResponse = $this->makeResponse($this->makeRequest('::url-b::'));
 
@@ -181,9 +181,9 @@ final class FakeHandlerTest extends TestCase
         $handler->assertResponseNotHandled($response);
     }
 
-    public function testAssertNoResponseHandled(): void
+    public function test_assert_no_response_handled(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $response = $this->makeResponse($this->makeRequest());
 
         $handler->assertNoResponseHandled();
@@ -193,9 +193,9 @@ final class FakeHandlerTest extends TestCase
         $handler->assertNoResponseHandled();
     }
 
-    public function testNoResultHandled(): void
+    public function test_no_result_handled(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $response = $this->makeResponse($this->makeRequest());
         $item = new Item(['::key::' => '::value::']);
 
@@ -206,9 +206,9 @@ final class FakeHandlerTest extends TestCase
         $handler->assertNoItemHandled();
     }
 
-    public function testAssertItemNotHandled(): void
+    public function test_assert_item_not_handled(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $response = $this->makeResponse($this->makeRequest());
         $item = new Item(['::key-1::' => '::value-1::']);
         $otherItem = new Item(['::key-2::' => '::value-2::']);
@@ -223,9 +223,9 @@ final class FakeHandlerTest extends TestCase
         $handler->assertItemNotHandled($item);
     }
 
-    public function testAssertRequestHandledPassesIfHandlerWasCalledWithCorrectRequest(): void
+    public function test_assert_request_handled_passes_if_handler_was_called_with_correct_request(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $request = $this->makeRequest();
         $response = $this->makeResponse($this->makeRequest());
 
@@ -234,18 +234,18 @@ final class FakeHandlerTest extends TestCase
         $handler->assertRequestHandled($request);
     }
 
-    public function testAssertRequestHandledFailsWhenHandlerWasNotCalledAtAll(): void
+    public function test_assert_request_handled_fails_when_handler_was_not_called_at_all(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $request = $this->makeRequest('::url-a::');
 
         $this->expectException(AssertionFailedError::class);
         $handler->assertRequestHandled($request);
     }
 
-    public function testAssertRequestHandledFailsWhenHandlerWasNotCalledWithRequest(): void
+    public function test_assert_request_handled_fails_when_handler_was_not_called_with_request(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $request = $this->makeRequest('::url-a::');
         $otherRequest = $this->makeRequest('::url-b::');
         $response = $this->makeResponse($this->makeRequest());
@@ -256,9 +256,9 @@ final class FakeHandlerTest extends TestCase
         $handler->assertRequestHandled($request);
     }
 
-    public function testAssertRequestNotHandled(): void
+    public function test_assert_request_not_handled(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $request = $this->makeRequest('::url-a::');
         $otherRequest = $this->makeRequest('::url-b::');
         $response = $this->makeResponse($this->makeRequest());
@@ -273,9 +273,9 @@ final class FakeHandlerTest extends TestCase
         $handler->assertRequestNotHandled($request);
     }
 
-    public function testAssertNoRequestHandled(): void
+    public function test_assert_no_request_handled(): void
     {
-        $handler = new FakeHandler();
+        $handler = new FakeHandler;
         $request = $this->makeRequest('::url-a::');
         $response = $this->makeResponse($this->makeRequest());
 

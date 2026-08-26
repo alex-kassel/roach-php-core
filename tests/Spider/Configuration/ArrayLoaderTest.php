@@ -23,7 +23,7 @@ use RoachPHP\Spider\Configuration\Configuration;
  */
 final class ArrayLoaderTest extends TestCase
 {
-    public function testLoadDefaultConfiguration(): void
+    public function test_load_default_configuration(): void
     {
         $loader = new ArrayLoader([]);
 
@@ -33,7 +33,7 @@ final class ArrayLoaderTest extends TestCase
         self::assertEquals($expected, $actual);
     }
 
-    public function testMergePartialOptions(): void
+    public function test_merge_partial_options(): void
     {
         $loader = new ArrayLoader([
             'startUrls' => ['::start-url::'],
@@ -47,7 +47,7 @@ final class ArrayLoaderTest extends TestCase
         self::assertEquals($expected, $actual);
     }
 
-    public function testMergeAllOptions(): void
+    public function test_merge_all_options(): void
     {
         $loader = new ArrayLoader([
             'startUrls' => ['::start-url::'],

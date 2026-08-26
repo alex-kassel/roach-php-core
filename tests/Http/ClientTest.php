@@ -13,8 +13,11 @@ declare(strict_types=1);
 
 namespace RoachPHP\Tests\Http;
 
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\TooManyRedirectsException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use RoachPHP\Http\Client;
@@ -29,7 +32,7 @@ final class ClientTest extends TestCase
 {
     use InteractsWithRequestsAndResponses;
 
-    public function testCallFulfilledCallbackForAllSuccessfulResponses(): void
+    public function test_call_fulfilled_callback_for_all_successful_responses(): void
     {
         $client = new Client($this->withMockClient([
             $response1 = new \GuzzleHttp\Psr7\Response(200),
@@ -56,7 +59,7 @@ final class ClientTest extends TestCase
         self::assertSame($request3, $responses[2]->getRequest());
     }
 
-    public function testPassBadResponseExceptionsToFulfilledHandler(): void
+    public function test_pass_bad_response_exceptions_to_fulfilled_handler(): void
     {
         $client = new Client($this->withMockClient([
             $response = new \GuzzleHttp\Psr7\Response(400),
@@ -76,10 +79,8 @@ final class ClientTest extends TestCase
         self::assertSame($response, $responses[0]->getResponse());
     }
 
-    /**
-     * @dataProvider exceptionProvider
-     */
-    public function testCallRejectCallbackOnRequestException(string $exceptionClass, callable $makeException): void
+    #[DataProvider('exceptionProvider')]
+    public function test_call_reject_callback_on_request_exception(string $exceptionClass, callable $makeException): void
     {
         $client = new Client($this->withMockClient([
             static fn (RequestInterface $request) => throw $makeException($request),
@@ -103,15 +104,15 @@ final class ClientTest extends TestCase
     {
         yield from [
             'ConnectException' => [
-                \GuzzleHttp\Exception\ConnectException::class,
-                static fn (RequestInterface $request) => new \GuzzleHttp\Exception\ConnectException(
+                ConnectException::class,
+                static fn (RequestInterface $request) => new ConnectException(
                     '::message::',
                     $request,
                 ),
             ],
             'TooManyRedirectsException' => [
-                \GuzzleHttp\Exception\TooManyRedirectsException::class,
-                static fn (RequestInterface $request) => new \GuzzleHttp\Exception\TooManyRedirectsException(
+                TooManyRedirectsException::class,
+                static fn (RequestInterface $request) => new TooManyRedirectsException(
                     '::message::',
                     $request,
                 ),

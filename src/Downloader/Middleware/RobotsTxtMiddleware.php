@@ -33,13 +33,13 @@ final class RobotsTxtMiddleware implements RequestMiddlewareInterface
         $uri = $request->getUri();
         $robotsUrl = $this->createRobotsUrl($uri);
 
-        if (!isset($this->robots[$robotsUrl])) {
+        if (! isset($this->robots[$robotsUrl])) {
             $this->robots[$robotsUrl] = Robots::create($userAgent, $robotsUrl);
         }
 
         $robots = $this->robots[$robotsUrl];
 
-        if (!$robots->mayIndex($uri, $userAgent)) {
+        if (! $robots->mayIndex($uri, $userAgent)) {
             return $request->drop("robots.txt forbids crawling {$uri} for user agent {$userAgent}");
         }
 
@@ -48,11 +48,11 @@ final class RobotsTxtMiddleware implements RequestMiddlewareInterface
 
     private function createRobotsUrl(string $url): string
     {
-        $robotsUrl = \parse_url($url, \PHP_URL_SCHEME) . '://' . \parse_url($url, \PHP_URL_HOST);
+        $robotsUrl = \parse_url($url, \PHP_URL_SCHEME).'://'.\parse_url($url, \PHP_URL_HOST);
 
         $port = \parse_url($url, \PHP_URL_PORT);
 
-        if (null !== $port && false !== $port) {
+        if ($port !== null && $port !== false) {
             $robotsUrl .= ":{$port}";
         }
 

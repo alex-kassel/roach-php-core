@@ -17,11 +17,11 @@ final class SystemClock implements ClockInterface
 {
     public function now(): \DateTimeImmutable
     {
-        return new \DateTimeImmutable();
+        return new \DateTimeImmutable;
     }
 
     /**
-     * @param 0|positive-int $seconds
+     * @param  0|positive-int  $seconds
      */
     public function sleep(int $seconds): void
     {

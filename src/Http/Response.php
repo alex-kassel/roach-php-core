@@ -34,11 +34,10 @@ final class Response implements DroppableInterface
     public function __construct(
         private ResponseInterface $response,
         private Request $request,
-    ) {
-    }
+    ) {}
 
     /**
-     * @param array<int, mixed> $args
+     * @param  array<int, mixed>  $args
      */
     public function __call(string $method, array $args): mixed
     {
@@ -68,6 +67,8 @@ final class Response implements DroppableInterface
     /**
      * Parse response body as JSON with strict exception throwing.
      *
+     * @param  int<1, max>  $depth
+     *
      * @throws JsonException
      */
     public function json(bool $associative = true, int $depth = 512, int $flags = 0): array|object
@@ -80,7 +81,7 @@ final class Response implements DroppableInterface
 
         $decoded = json_decode($body, $associative, $depth, $flags | JSON_THROW_ON_ERROR);
 
-        if (!is_array($decoded) && !is_object($decoded)) {
+        if (! is_array($decoded) && ! is_object($decoded)) {
             throw new JsonException('Decoded JSON response is neither an array nor an object');
         }
 

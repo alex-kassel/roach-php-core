@@ -28,9 +28,7 @@ final class Processor
      */
     private array $middleware = [];
 
-    public function __construct(private EventDispatcherInterface $eventDispatcher)
-    {
-    }
+    public function __construct(private EventDispatcherInterface $eventDispatcher) {}
 
     public function withMiddleware(SpiderMiddlewareInterface ...$middleware): self
     {
@@ -84,7 +82,7 @@ final class Processor
                 }
             }
 
-            if (!$value->wasDropped()) {
+            if (! $value->wasDropped()) {
                 yield ParseResult::fromValue($value);
             }
         }

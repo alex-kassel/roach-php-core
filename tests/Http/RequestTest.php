@@ -29,24 +29,24 @@ use RoachPHP\Tests\Support\DroppableTestCase;
  */
 final class RequestTest extends TestCase
 {
-    use InteractsWithRequestsAndResponses;
     use DroppableTestCase;
+    use InteractsWithRequestsAndResponses;
 
-    public function testCanAccessTheRequestUri(): void
+    public function test_can_access_the_request_uri(): void
     {
         $request = $this->makeRequest('::request-uri::');
 
         self::assertSame('::request-uri::', $request->getUri());
     }
 
-    public function testCanAccessTheRequestUriPath(): void
+    public function test_can_access_the_request_uri_path(): void
     {
-        $request = $this->makeRequest('https://::request-uri::/::path::');
+        $request = $this->makeRequest('https://example.com/::path::');
 
         self::assertSame('/::path::', $request->getPath());
     }
 
-    public function testCanAddHeader(): void
+    public function test_can_add_header(): void
     {
         $request = $this->makeRequest();
 
@@ -59,7 +59,7 @@ final class RequestTest extends TestCase
         self::assertSame(['::value::'], $newRequest->getHeader('X-Custom-Header'));
     }
 
-    public function testCanManipulateUnderlyingGuzzleRequest(): void
+    public function test_can_manipulate_underlying_guzzle_request(): void
     {
         $request = $this->makeRequest();
 
@@ -73,7 +73,7 @@ final class RequestTest extends TestCase
         self::assertSame(['::value::'], $request->getHeader('X-Custom-Header'));
     }
 
-    public function testCanCallParseCallback(): void
+    public function test_can_call_parse_callback(): void
     {
         $called = false;
         $request = $this->makeRequest(callback: static function (Response $response) use (&$called) {
@@ -83,13 +83,13 @@ final class RequestTest extends TestCase
         });
 
         $request->callback(
-            new Response(new GuzzleResponse(), $request),
+            new Response(new GuzzleResponse, $request),
         )->next();
 
         self::assertTrue($called);
     }
 
-    public function testCanAddMetaDataToRequest(): void
+    public function test_can_add_meta_data_to_request(): void
     {
         $request = $this->makeRequest();
 
@@ -99,14 +99,14 @@ final class RequestTest extends TestCase
         self::assertSame('::meta-value::', $request->getMeta('::meta-key::'));
     }
 
-    public function testReturnsUnderlyingGuzzleRequest(): void
+    public function test_returns_underlying_guzzle_request(): void
     {
         $request = $this->makeRequest('::request-uri::');
 
         self::assertSame('::request-uri::', (string) $request->getPsrRequest()->getUri());
     }
 
-    public function testAddingResponseDoesntMutateRequest(): void
+    public function test_adding_response_doesnt_mutate_request(): void
     {
         $requestA = $this->makeRequest('::request-uri::');
 
@@ -119,7 +119,7 @@ final class RequestTest extends TestCase
         self::assertSame($response, $requestB->getResponse());
     }
 
-    public function testReturnParsedURL(): void
+    public function test_return_parsed_url(): void
     {
         $request = $this->makeRequest('https://example.com/path#anchor');
 

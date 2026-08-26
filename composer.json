@@ -1,12 +1,32 @@
 {
-    "name": "roach-php/core",
+    "name": "alex-kassel/roach-php-core",
     "description": "A complete web scraping toolkit for PHP",
-    "license": "MIT",
     "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "scraping",
+        "crawler",
+        "spider",
+        "scraper",
+        "roach",
+        "roach-php",
+        "dom-crawler"
+    ],
+    "homepage": "https://github.com/alex-kassel/roach-php-core",
+    "support": {
+        "issues": "https://github.com/alex-kassel/roach-php-core/issues",
+        "source": "https://github.com/alex-kassel/roach-php-core"
+    },
     "authors": [
         {
             "name": "Kai Sassnowski",
-            "email": "me@kai-sassnowski.com"
+            "email": "me@kai-sassnowski.com",
+            "role": "Original Author"
+        },
+        {
+            "name": "Alexander Macenko",
+            "email": "alexander.macenko@gmail.com",
+            "role": "Maintainer"
         }
     ],
     "require": {
@@ -27,12 +47,11 @@
         "symfony/options-resolver": "^7.0 || ^8.0"
     },
     "require-dev": {
-        "ergebnis/composer-normalize": "^2.45",
-        "ergebnis/php-cs-fixer-config": "^6.45.0",
         "http-interop/http-factory-guzzle": "^1.2",
+        "laravel/pint": "^1.0",
         "phpstan/phpstan": "^2.1",
-        "phpunit/phpunit": "^10.4.2",
-        "psr/http-message": "^1.1.0",
+        "phpunit/phpunit": "^10.4.2 || ^11.0 || ^12.0",
+        "psr/http-message": "^1.1.0 || ^2.0",
         "roave/security-advisories": "dev-latest",
         "slim/slim": "^4.12",
         "spatie/browsershot": "^5.0"
@@ -53,31 +72,10 @@
     "bin": [
         "roach"
     ],
-    "config": {
-        "allow-plugins": {
-            "composer/package-versions-deprecated": true,
-            "ergebnis/composer-normalize": true
-        }
-    },
     "scripts": {
-        "post-install-cmd": [
-            "composer normalize"
-        ],
-        "post-update-cmd": [
-            "composer normalize"
-        ],
-        "analyze": [
-            "vendor/bin/phpstan"
-        ],
-        "coding-standards": [
-            "mkdir -p .build/php-cs-fixer",
-            "php-cs-fixer fix --diff --verbose"
-        ],
-        "test-server": [
-            "php -S localhost:8000 -t ./tests/Server"
-        ],
-        "test-watch": [
-            "vendor/bin/phpunit-watcher watch"
-        ]
-    }
+        "analyze": "vendor/bin/phpstan analyse src --configuration=phpstan.neon",
+        "test": "vendor/bin/phpunit"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

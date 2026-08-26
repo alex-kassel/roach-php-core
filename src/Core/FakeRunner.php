@@ -37,7 +37,7 @@ final class FakeRunner implements RunnerInterface
     }
 
     /**
-     * @param class-string<SpiderInterface> $spider
+     * @param  class-string<SpiderInterface>  $spider
      *
      * @psalm-param (callable(Overrides|null, array): bool)|null $callback
      */
@@ -49,7 +49,7 @@ final class FakeRunner implements RunnerInterface
             "Expected run for spider {$spider} to exist but no runs were started instead.",
         );
 
-        if (null !== $callback) {
+        if ($callback !== null) {
             foreach ($this->runs[$spider] as $run) {
                 if ($callback($run['overrides'], $run['context'])) {
                     return;
@@ -61,7 +61,7 @@ final class FakeRunner implements RunnerInterface
     }
 
     /**
-     * @param class-string<SpiderInterface> $spider
+     * @param  class-string<SpiderInterface>  $spider
      */
     public function assertRunWasNotStarted(string $spider): void
     {
@@ -73,7 +73,7 @@ final class FakeRunner implements RunnerInterface
     }
 
     /**
-     * @param class-string<SpiderInterface> $spiderClass
+     * @param  class-string<SpiderInterface>  $spiderClass
      */
     private function recordRun(string $spiderClass, ?Overrides $overrides = null, array $context = []): void
     {

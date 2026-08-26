@@ -23,7 +23,7 @@ use RoachPHP\Http\UnknownQueryParameterException;
  */
 final class QueryTest extends TestCase
 {
-    public function testCanBeConvertedToAndFromAnArray(): void
+    public function test_can_be_converted_to_and_from_an_array(): void
     {
         $query = Query::fromArray([
             'baz' => 'qux',
@@ -36,7 +36,7 @@ final class QueryTest extends TestCase
         ], $query->toArray());
     }
 
-    public function testCanBeConstructedFromAString(): void
+    public function test_can_be_constructed_from_a_string(): void
     {
         $query = Query::parse('foo=bar&baz[]=1&baz[]=2');
         $expectedQuery = Query::fromArray([
@@ -47,7 +47,7 @@ final class QueryTest extends TestCase
         self::assertTrue($query->equals($expectedQuery));
     }
 
-    public function testCanBeTurnedIntoAString(): void
+    public function test_can_be_turned_into_a_string(): void
     {
         $query = Query::fromArray([
             'foo' => 'bar',
@@ -60,7 +60,7 @@ final class QueryTest extends TestCase
         );
     }
 
-    public function testCheckIfKeyExists(): void
+    public function test_check_if_key_exists(): void
     {
         $query = Query::fromArray([
             '::key-1::' => '::value-1::',
@@ -70,7 +70,7 @@ final class QueryTest extends TestCase
         self::assertFalse($query->has('::key-2::'));
     }
 
-    public function testGetValue(): void
+    public function test_get_value(): void
     {
         $query = Query::fromArray([
             '::key-1::' => '::value-1::',
@@ -81,7 +81,7 @@ final class QueryTest extends TestCase
         self::assertSame(['::value-2::', 2], $query->get('::key-2::'));
     }
 
-    public function testThrowExceptionWhenTryingToGetNonExistentKey(): void
+    public function test_throw_exception_when_trying_to_get_non_existent_key(): void
     {
         $this->expectException(UnknownQueryParameterException::class);
 
@@ -92,7 +92,7 @@ final class QueryTest extends TestCase
         $query->get('::key-2::');
     }
 
-    public function testGetValueWithDefault(): void
+    public function test_get_value_with_default(): void
     {
         $query = Query::fromArray(['::key-1::' => '::value-1::']);
 
@@ -103,14 +103,14 @@ final class QueryTest extends TestCase
         );
     }
 
-    public function testGetInteger(): void
+    public function test_get_integer(): void
     {
         $query = Query::fromArray(['::key::' => '42']);
 
         self::assertSame(42, $query->getInt('::key::'));
     }
 
-    public function testGetIntegerThrowsExceptionIfValueIsNotNumeric(): void
+    public function test_get_integer_throws_exception_if_value_is_not_numeric(): void
     {
         $this->expectException(QueryParameterTypeMismatchException::class);
         $this->expectExceptionMessage('Unable to cast non-numeric parameter [::key::] to an integer');
@@ -120,7 +120,7 @@ final class QueryTest extends TestCase
         $query->getInt('::key::');
     }
 
-    public function testGetArray(): void
+    public function test_get_array(): void
     {
         $query = Query::fromArray(['::key::' => ['::value-1::', '::value-2::']]);
 
@@ -130,7 +130,7 @@ final class QueryTest extends TestCase
         );
     }
 
-    public function testGetArrayThrowsExceptionIfValueIsNotAnArray(): void
+    public function test_get_array_throws_exception_if_value_is_not_an_array(): void
     {
         $this->expectException(QueryParameterTypeMismatchException::class);
         $this->expectExceptionMessage('Parameter [::key::] is not an array');
@@ -140,14 +140,14 @@ final class QueryTest extends TestCase
         $query->getArray('::key::');
     }
 
-    public function testGetFloat(): void
+    public function test_get_float(): void
     {
         $query = Query::fromArray(['::key::' => '69.420']);
 
         self::assertSame(69.420, $query->getFloat('::key::'));
     }
 
-    public function testGetFloatThrowsExceptionIfValueIsNotNumeric(): void
+    public function test_get_float_throws_exception_if_value_is_not_numeric(): void
     {
         $this->expectException(QueryParameterTypeMismatchException::class);
         $this->expectExceptionMessage('Unable to cast non-numeric parameter [::key::] to a float');
@@ -157,7 +157,7 @@ final class QueryTest extends TestCase
         $query->getFloat('::key::');
     }
 
-    public function testEquality(): void
+    public function test_equality(): void
     {
         $query1 = Query::fromArray([
             '::key-1::' => '::value-1::',
@@ -190,7 +190,7 @@ final class QueryTest extends TestCase
         self::assertTrue($query3->equals($query3));
     }
 
-    public function testCompareEqualityWithString(): void
+    public function test_compare_equality_with_string(): void
     {
         $query1 = Query::fromArray([
             'foo' => 'bar',
@@ -208,7 +208,7 @@ final class QueryTest extends TestCase
         );
     }
 
-    public function testComparingForEqualityIgnoresOrderOfParameters(): void
+    public function test_comparing_for_equality_ignores_order_of_parameters(): void
     {
         $query1 = Query::fromArray([
             'foo' => 'bar',
@@ -222,7 +222,7 @@ final class QueryTest extends TestCase
         self::assertTrue($query1->equals($query2));
     }
 
-    public function testIsEmpty(): void
+    public function test_is_empty(): void
     {
         $query1 = Query::fromArray(['::key::' => '::value::']);
         $query2 = Query::fromArray(['::key::' => null]);

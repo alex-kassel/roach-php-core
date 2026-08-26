@@ -16,9 +16,9 @@ namespace RoachPHP\Http;
 interface ClientInterface
 {
     /**
-     * @param list<Request>                     $requests
-     * @param ?callable(Response): void         $onFulfilled
-     * @param ?callable(RequestException): void $onRejected
+     * @param  list<Request>  $requests
+     * @param  ?callable(Response): void  $onFulfilled
+     * @param  ?callable(RequestException): void  $onRejected
      */
     public function pool(
         array $requests,

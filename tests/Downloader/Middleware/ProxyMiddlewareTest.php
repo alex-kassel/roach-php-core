@@ -40,16 +40,16 @@ final class ProxyMiddlewareTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->container = (new Container())
-            ->delegate(new ReflectionContainer());
-        $this->logger = new FakeLogger();
+        $this->container = (new Container)
+            ->delegate(new ReflectionContainer);
+        $this->logger = new FakeLogger;
         $this->middleware = new ProxyMiddleware(
             $this->container,
             $this->logger,
         );
     }
 
-    public function testDoesNotAddProxyOptionsIfNoProxiesWereProvided(): void
+    public function test_does_not_add_proxy_options_if_no_proxies_were_provided(): void
     {
         $request = $this->makeRequest('https://example.com');
         $this->middleware->configure([]);
@@ -58,7 +58,7 @@ final class ProxyMiddlewareTest extends TestCase
         self::assertArrayNotHasKey('proxy', $request->getOptions());
     }
 
-    public function testAddProxyOptionsForSpecificURL(): void
+    public function test_add_proxy_options_for_specific_url(): void
     {
         $request = $this->makeRequest('https://example.com');
         $this->middleware->configure([
@@ -89,7 +89,7 @@ final class ProxyMiddlewareTest extends TestCase
     }
 
     #[DataProvider('requestURLProvider')]
-    public function testAddWildCardProxyToAllRequests(string $url): void
+    public function test_add_wild_card_proxy_to_all_requests(string $url): void
     {
         $request = $this->makeRequest($url);
         $this->middleware->configure([
@@ -123,7 +123,7 @@ final class ProxyMiddlewareTest extends TestCase
         ];
     }
 
-    public function testPreferURLSpecificProxyToWildcardProxy(): void
+    public function test_prefer_url_specific_proxy_to_wildcard_proxy(): void
     {
         $request = $this->makeRequest('https://example.com');
         $this->middleware->configure([
@@ -153,7 +153,7 @@ final class ProxyMiddlewareTest extends TestCase
         );
     }
 
-    public function testLogProxyOptionsForRequest(): void
+    public function test_log_proxy_options_for_request(): void
     {
         $request = $this->makeRequest('https://example.com');
         $this->middleware->configure([
@@ -181,7 +181,7 @@ final class ProxyMiddlewareTest extends TestCase
         );
     }
 
-    public function testUseCustomConfigurationLoaderClassIfProvided(): void
+    public function test_use_custom_configuration_loader_class_if_provided(): void
     {
         $request = $this->makeRequest('https://example.com');
         $this->container->add(FakeLoader::class, FakeLoader::class);
@@ -200,7 +200,7 @@ final class ProxyMiddlewareTest extends TestCase
         );
     }
 
-    public function testLogWarningIfNoProxyWasConfiguredForMiddleware(): void
+    public function test_log_warning_if_no_proxy_was_configured_for_middleware(): void
     {
         $request = $this->makeRequest('https://example.com');
 

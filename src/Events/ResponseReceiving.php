@@ -20,7 +20,5 @@ final class ResponseReceiving extends Event
 {
     public const NAME = 'response.received';
 
-    public function __construct(public Response $response)
-    {
-    }
+    public function __construct(public Response $response) {}
 }

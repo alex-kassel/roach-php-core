@@ -16,6 +16,4 @@ namespace RoachPHP\Extensions;
 use RoachPHP\Support\ConfigurableInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-interface ExtensionInterface extends ConfigurableInterface, EventSubscriberInterface
-{
-}
+interface ExtensionInterface extends ConfigurableInterface, EventSubscriberInterface {}

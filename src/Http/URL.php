@@ -24,8 +24,7 @@ final class URL
         public readonly ?string $path,
         public readonly Query $query,
         public readonly ?string $fragment,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws MalformedUriException
@@ -46,7 +45,7 @@ final class URL
          */
         $parts = \parse_url($url);
 
-        if (false === $parts) {
+        if ($parts === false) {
             throw MalformedUriException::forUri($url);
         }
 

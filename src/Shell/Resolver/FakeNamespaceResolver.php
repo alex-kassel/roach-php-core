@@ -21,8 +21,7 @@ use RoachPHP\Spider\SpiderInterface;
 final class FakeNamespaceResolver implements NamespaceResolverInterface
 {
     /**
-     * @param class-string<SpiderInterface> $spiderClass
-     *
+     * @param  class-string<SpiderInterface>  $spiderClass
      * @return class-string<SpiderInterface>
      */
     public function resolveSpiderNamespace(string $spiderClass): string

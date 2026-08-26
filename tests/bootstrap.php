@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 $candidates = [
-    __DIR__ . '/../vendor/autoload.php',
-    __DIR__ . '/../../../../vendor/autoload.php',
+    __DIR__.'/../vendor/autoload.php',
+    __DIR__.'/../../../../vendor/autoload.php',
 ];
 
 $autoloader = null;
@@ -19,5 +19,5 @@ if ($autoloader === null) {
     throw new RuntimeException('Composer autoloader not found.');
 }
 
-$autoloader->addPsr4('RoachPHP\\', __DIR__ . '/../src');
+$autoloader->addPsr4('RoachPHP\\', __DIR__.'/../src');
 $autoloader->addPsr4('RoachPHP\\Tests\\', __DIR__);

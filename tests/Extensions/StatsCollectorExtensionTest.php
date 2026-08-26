@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace RoachPHP\Tests\Extensions;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use RoachPHP\Core\Run;
 use RoachPHP\Events\ItemDropped;
 use RoachPHP\Events\ItemScraped;
@@ -40,16 +41,15 @@ final class StatsCollectorExtensionTest extends ExtensionTestCase
     private FakeClock $clock;
 
     /**
-     * @dataProvider statsScenarioProvider
-     *
-     * @param array{event: Event, eventName: string, stat: string} $scenario
-     */
-    public function testCountNumberOfEventOccurrence(array $scenario, int $eventCount): void
+     * @param  array{event: Event, eventName: string, stat: string}  $scenario
+     **/
+    #[DataProvider('statsScenarioProvider')]
+    public function test_count_number_of_event_occurrence(array $scenario, int $eventCount): void
     {
         $this->extension->configure([]);
 
         $this->withRun(function () use ($scenario, $eventCount): void {
-            for ($i = 0; $i < $eventCount; ++$i) {
+            for ($i = 0; $i < $eventCount; $i++) {
                 $this->dispatch($scenario['event'], $scenario['eventName']);
             }
         });
@@ -92,10 +92,8 @@ final class StatsCollectorExtensionTest extends ExtensionTestCase
         }
     }
 
-    /**
-     * @dataProvider runtimeProvider
-     */
-    public function testLogRuntime(int $seconds, string $expected): void
+    #[DataProvider('runtimeProvider')]
+    public function test_log_runtime(int $seconds, string $expected): void
     {
         $this->extension->configure([]);
 
@@ -118,14 +116,14 @@ final class StatsCollectorExtensionTest extends ExtensionTestCase
 
     protected function createExtension(): ExtensionInterface
     {
-        $this->logger = new FakeLogger();
-        $this->clock = new FakeClock();
+        $this->logger = new FakeLogger;
+        $this->clock = new FakeClock;
 
         return new StatsCollectorExtension($this->logger, $this->clock);
     }
 
     /**
-     * @param callable(): void $callback
+     * @param  callable(): void  $callback
      */
     private function withRun(callable $callback): void
     {

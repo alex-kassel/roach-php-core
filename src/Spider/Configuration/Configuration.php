@@ -21,11 +21,11 @@ use RoachPHP\Spider\SpiderMiddlewareInterface;
 final class Configuration
 {
     /**
-     * @param array<array-key, string>                                      $startUrls
-     * @param array<array-key, class-string<DownloaderMiddlewareInterface>> $downloaderMiddleware
-     * @param array<array-key, class-string<ItemProcessorInterface>>        $itemProcessors
-     * @param array<array-key, class-string<SpiderMiddlewareInterface>>     $spiderMiddleware
-     * @param array<array-key, class-string<ExtensionInterface>>            $extensions
+     * @param  array<array-key, string>  $startUrls
+     * @param  array<array-key, class-string<DownloaderMiddlewareInterface>>  $downloaderMiddleware
+     * @param  array<array-key, class-string<ItemProcessorInterface>>  $itemProcessors
+     * @param  array<array-key, class-string<SpiderMiddlewareInterface>>  $spiderMiddleware
+     * @param  array<array-key, class-string<ExtensionInterface>>  $extensions
      */
     public function __construct(
         public array $startUrls,
@@ -35,8 +35,7 @@ final class Configuration
         public array $extensions,
         public int $concurrency,
         public int $requestDelay,
-    ) {
-    }
+    ) {}
 
     public function withOverrides(Overrides $overrides): self
     {

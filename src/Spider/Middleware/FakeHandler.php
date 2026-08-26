@@ -31,22 +31,21 @@ final class FakeHandler implements SpiderMiddlewareInterface
     private array $requestCalls = [];
 
     /**
-     * @param ?\Closure(Response): Response                     $handleResponseCallback
-     * @param ?\Closure(ItemInterface, Response): ItemInterface $handleItemCallback
-     * @param ?\Closure(Request, Response): Request             $handleRequestCallback
+     * @param  ?\Closure(Response): Response  $handleResponseCallback
+     * @param  ?\Closure(ItemInterface, Response): ItemInterface  $handleItemCallback
+     * @param  ?\Closure(Request, Response): Request  $handleRequestCallback
      */
     public function __construct(
         private ?\Closure $handleResponseCallback = null,
         private ?\Closure $handleItemCallback = null,
         private ?\Closure $handleRequestCallback = null,
-    ) {
-    }
+    ) {}
 
     public function handleResponse(Response $response): Response
     {
         $this->responseCalls[] = $response;
 
-        if (null !== $this->handleResponseCallback) {
+        if ($this->handleResponseCallback !== null) {
             return ($this->handleResponseCallback)($response);
         }
 
@@ -57,7 +56,7 @@ final class FakeHandler implements SpiderMiddlewareInterface
     {
         $this->requestCalls[] = $request;
 
-        if (null !== $this->handleRequestCallback) {
+        if ($this->handleRequestCallback !== null) {
             return ($this->handleRequestCallback)($request, $response);
         }
 
@@ -68,7 +67,7 @@ final class FakeHandler implements SpiderMiddlewareInterface
     {
         $this->itemCalls[] = $item;
 
-        if (null !== $this->handleItemCallback) {
+        if ($this->handleItemCallback !== null) {
             return ($this->handleItemCallback)($item, $response);
         }
 

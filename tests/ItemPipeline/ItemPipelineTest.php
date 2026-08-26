@@ -37,17 +37,17 @@ final class ItemPipelineTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->dispatcher = new FakeDispatcher();
+        $this->dispatcher = new FakeDispatcher;
         $this->pipeline = new ItemPipeline($this->dispatcher);
     }
 
-    public function testCallsProcessorsInOrder(): void
+    public function test_calls_processors_in_order(): void
     {
         $processorA = $this->makeProcessor(
-            static fn ($item) => $item->set('value', $item->get('value') . 'A'),
+            static fn ($item) => $item->set('value', $item->get('value').'A'),
         );
         $processorB = $this->makeProcessor(
-            static fn ($item) => $item->set('value', $item->get('value') . 'B'),
+            static fn ($item) => $item->set('value', $item->get('value').'B'),
         );
 
         $result = $this->pipeline
@@ -57,14 +57,14 @@ final class ItemPipelineTest extends TestCase
         self::assertSame('CAB', $result->get('value'));
     }
 
-    public function testDontCallNextProcessorsIfItemWasDropped(): void
+    public function test_dont_call_next_processors_if_item_was_dropped(): void
     {
         $processorA = $this->makeProcessor(
-            static fn ($item) => $item->set('value', $item->get('value') . 'A'),
+            static fn ($item) => $item->set('value', $item->get('value').'A'),
         );
         $processorB = $this->makeProcessor(static fn ($item) => $item->drop('::reason::'));
         $processorC = $this->makeProcessor(
-            static fn ($item) => $item->set('value', $item->get('value') . 'C'),
+            static fn ($item) => $item->set('value', $item->get('value').'C'),
         );
 
         $result = $this->pipeline
@@ -74,7 +74,7 @@ final class ItemPipelineTest extends TestCase
         self::assertSame('A', $result->get('value'));
     }
 
-    public function testDispatchesEventIfItemWasDropped(): void
+    public function test_dispatches_event_if_item_was_dropped(): void
     {
         $processor = $this->makeProcessor(static fn ($item) => $item->drop('::reason::'));
         $item = new Item(['foo' => 'bar']);
@@ -89,14 +89,14 @@ final class ItemPipelineTest extends TestCase
         );
     }
 
-    public function testDoesNotDispatchEventIfItemWasNotDropped(): void
+    public function test_does_not_dispatch_event_if_item_was_not_dropped(): void
     {
         $this->pipeline->sendItem(new Item([]));
 
         $this->dispatcher->assertNotDispatched(ItemDropped::NAME);
     }
 
-    public function testDispatchesEventIfItemWasScraped(): void
+    public function test_dispatches_event_if_item_was_scraped(): void
     {
         $this->pipeline->sendItem(new Item(['foo' => 'bar']));
 
@@ -106,7 +106,7 @@ final class ItemPipelineTest extends TestCase
         );
     }
 
-    public function testDoesNotDispatchEventIfItemWasNotScraped(): void
+    public function test_does_not_dispatch_event_if_item_was_not_scraped(): void
     {
         $processor = $this->makeProcessor(static fn ($item) => $item->drop('::reason::'));
         $this->pipeline
@@ -116,7 +116,7 @@ final class ItemPipelineTest extends TestCase
         $this->dispatcher->assertNotDispatched(ItemScraped::NAME);
     }
 
-    public function testRunsConditionalItemProcessorIfItHandlesItem(): void
+    public function test_runs_conditional_item_processor_if_it_handles_item(): void
     {
         $processor = $this->makeConditionalProcessor(true, static fn (ItemInterface $item) => $item->drop('::reason::'));
 
@@ -127,7 +127,7 @@ final class ItemPipelineTest extends TestCase
         self::assertTrue($result->wasDropped());
     }
 
-    public function testDoesNotRunConditionalItemProcessorIfItDoesNotHandleItem(): void
+    public function test_does_not_run_conditional_item_processor_if_it_does_not_handle_item(): void
     {
         $processor = $this->makeConditionalProcessor(false, static fn (ItemInterface $item) => $item->drop('::reason::'));
 
@@ -140,12 +140,11 @@ final class ItemPipelineTest extends TestCase
 
     private function makeProcessor(\Closure $processItem): ItemProcessorInterface
     {
-        return new class($processItem) implements ItemProcessorInterface {
+        return new class($processItem) implements ItemProcessorInterface
+        {
             use Configurable;
 
-            public function __construct(private \Closure $processItem)
-            {
-            }
+            public function __construct(private \Closure $processItem) {}
 
             public function processItem(ItemInterface $item): ItemInterface
             {
@@ -158,14 +157,14 @@ final class ItemPipelineTest extends TestCase
         bool $handlesItem,
         \Closure $processItem,
     ): ConditionalItemProcessor {
-        return new class($handlesItem, $processItem) implements ConditionalItemProcessor {
+        return new class($handlesItem, $processItem) implements ConditionalItemProcessor
+        {
             use Configurable;
 
             public function __construct(
                 private bool $handlesItem,
                 private \Closure $processItem,
-            ) {
-            }
+            ) {}
 
             public function shouldHandle(ItemInterface $item): bool
             {

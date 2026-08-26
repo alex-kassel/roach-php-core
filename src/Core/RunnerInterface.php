@@ -20,7 +20,7 @@ use RoachPHP\Spider\SpiderInterface;
 interface RunnerInterface
 {
     /**
-     * @param class-string<SpiderInterface> $spiderClass
+     * @param  class-string<SpiderInterface>  $spiderClass
      */
     public function startSpider(
         string $spiderClass,
@@ -29,8 +29,7 @@ interface RunnerInterface
     ): void;
 
     /**
-     * @param class-string<SpiderInterface> $spiderClass
-     *
+     * @param  class-string<SpiderInterface>  $spiderClass
      * @return array<int, ItemInterface>
      */
     public function collectSpider(

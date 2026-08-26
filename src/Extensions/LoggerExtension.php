@@ -26,9 +26,7 @@ final class LoggerExtension implements ExtensionInterface
 {
     use Configurable;
 
-    public function __construct(private LoggerInterface $logger)
-    {
-    }
+    public function __construct(private LoggerInterface $logger) {}
 
     public static function getSubscribedEvents(): array
     {

@@ -19,9 +19,7 @@ final class Item implements ItemInterface
 {
     use Droppable;
 
-    public function __construct(private array $data)
-    {
-    }
+    public function __construct(private array $data) {}
 
     public function all(): array
     {

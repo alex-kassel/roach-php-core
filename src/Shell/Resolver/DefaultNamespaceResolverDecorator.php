@@ -28,9 +28,9 @@ final class DefaultNamespaceResolverDecorator implements NamespaceResolverInterf
     }
 
     /**
-     * @throws InvalidSpiderException
-     *
      * @return class-string<SpiderInterface>
+     *
+     * @throws InvalidSpiderException
      */
     public function resolveSpiderNamespace(string $spiderClass): string
     {
@@ -44,6 +44,6 @@ final class DefaultNamespaceResolverDecorator implements NamespaceResolverInterf
             return $this->wrapped->resolveSpiderNamespace($spiderClass);
         }
 
-        return $this->wrapped->resolveSpiderNamespace($this->defaultNamespace . '\\' . $spiderClass);
+        return $this->wrapped->resolveSpiderNamespace($this->defaultNamespace.'\\'.$spiderClass);
     }
 }

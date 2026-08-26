@@ -15,6 +15,4 @@ namespace RoachPHP\Tests\Fixtures;
 
 use RoachPHP\ItemPipeline\AbstractItem;
 
-final class TestItem2 extends AbstractItem
-{
-}
+final class TestItem2 extends AbstractItem {}

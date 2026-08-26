@@ -35,8 +35,8 @@ final class MaxRequestExtension implements ExtensionInterface
     {
         $this->dropRequestIfLimitReached($event);
 
-        if (!$event->request->wasDropped()) {
-            ++$this->sentRequests;
+        if (! $event->request->wasDropped()) {
+            $this->sentRequests++;
         }
     }
 

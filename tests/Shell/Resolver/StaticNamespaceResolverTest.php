@@ -23,18 +23,18 @@ use RoachPHP\Tests\Fixtures\RequestSpiderMiddleware;
  */
 final class StaticNamespaceResolverTest extends TestCase
 {
-    public function testUseProvidedParameterAsIsIfItExistsAndIsAValidSpider(): void
+    public function test_use_provided_parameter_as_is_if_it_exists_and_is_a_valid_spider(): void
     {
-        $resolver = new StaticNamespaceResolver();
+        $resolver = new StaticNamespaceResolver;
 
         $result = $resolver->resolveSpiderNamespace('RoachPHP\Tests\Fixtures\TestSpider');
 
         self::assertSame('RoachPHP\Tests\Fixtures\TestSpider', $result);
     }
 
-    public function testThrowsExceptionIfTheProvidedSpiderClassDoesNotExist(): void
+    public function test_throws_exception_if_the_provided_spider_class_does_not_exist(): void
     {
-        $resolver = new StaticNamespaceResolver();
+        $resolver = new StaticNamespaceResolver;
 
         $this->expectException(InvalidSpiderException::class);
         $this->expectExceptionMessage('The spider class ::spider-class:: does not exist');
@@ -42,9 +42,9 @@ final class StaticNamespaceResolverTest extends TestCase
         $resolver->resolveSpiderNamespace('::spider-class::');
     }
 
-    public function testThrowsExceptionIfTheProvidedClassIsNotASpider(): void
+    public function test_throws_exception_if_the_provided_class_is_not_a_spider(): void
     {
-        $resolver = new StaticNamespaceResolver();
+        $resolver = new StaticNamespaceResolver;
 
         $this->expectException(InvalidSpiderException::class);
         $this->expectExceptionMessage(\sprintf('The class %s is not a spider', RequestSpiderMiddleware::class));

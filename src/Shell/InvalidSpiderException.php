@@ -13,6 +13,4 @@ declare(strict_types=1);
 
 namespace RoachPHP\Shell;
 
-final class InvalidSpiderException extends \Exception
-{
-}
+final class InvalidSpiderException extends \Exception {}

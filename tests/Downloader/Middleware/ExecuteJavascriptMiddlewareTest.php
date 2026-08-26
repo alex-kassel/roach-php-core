@@ -26,12 +26,12 @@ final class ExecuteJavascriptMiddlewareTest extends IntegrationTestCase
 {
     use InteractsWithRequestsAndResponses;
 
-    public function testUpdateResponseBodyWithHtmlAfterExecutingJavascript(): void
+    public function test_update_response_body_with_html_after_executing_javascript(): void
     {
         $response = $this->makeResponse(
             $this->makeRequest('http://localhost:8000/javascript'),
         );
-        $middleware = new ExecuteJavascriptMiddleware(new FakeLogger());
+        $middleware = new ExecuteJavascriptMiddleware(new FakeLogger);
 
         $processedResponse = $middleware->handleResponse($response);
 
@@ -39,16 +39,17 @@ final class ExecuteJavascriptMiddlewareTest extends IntegrationTestCase
         self::assertSame('I was loaded via Javascript!', $processedResponse->filter('#content p')->text(''));
     }
 
-    public function testDropResponseIfExceptionOccursWhileExecutingJavascript(): void
+    public function test_drop_response_if_exception_occurs_while_executing_javascript(): void
     {
-        $throwingBrowsershot = new class() extends Browsershot {
+        $throwingBrowsershot = new class extends Browsershot
+        {
             public function bodyHtml(): string
             {
                 throw new \Exception('::exception-message::');
             }
         };
         $middleware = new ExecuteJavascriptMiddleware(
-            new FakeLogger(),
+            new FakeLogger,
             static fn (string $uri): Browsershot => $throwingBrowsershot->setUrl($uri),
         );
 
@@ -57,15 +58,16 @@ final class ExecuteJavascriptMiddlewareTest extends IntegrationTestCase
         self::assertTrue($processedResponse->wasDropped());
     }
 
-    public function testLogErrors(): void
+    public function test_log_errors(): void
     {
-        $throwingBrowsershot = new class() extends Browsershot {
+        $throwingBrowsershot = new class extends Browsershot
+        {
             public function bodyHtml(): string
             {
                 throw new \Exception('::exception-message::');
             }
         };
-        $logger = new FakeLogger();
+        $logger = new FakeLogger;
         $middleware = new ExecuteJavascriptMiddleware(
             $logger,
             static fn (string $uri): Browsershot => $throwingBrowsershot->setUrl($uri),
@@ -81,14 +83,14 @@ final class ExecuteJavascriptMiddlewareTest extends IntegrationTestCase
         );
     }
 
-    public function testUsesTheProvidedUserAgentOption(): void
+    public function test_uses_the_provided_user_agent_option(): void
     {
         $mockBrowserShot = $this->createMock(Browsershot::class);
         $response = $this->makeResponse(
             $this->makeRequest('http://localhost:8000/javascript'),
         );
         $middleware = new ExecuteJavascriptMiddleware(
-            new FakeLogger(),
+            new FakeLogger,
             static fn (string $uri): Browsershot => $mockBrowserShot,
         );
         $middleware->configure(['userAgent' => 'custom']);

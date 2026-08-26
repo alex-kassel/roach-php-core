@@ -20,7 +20,5 @@ final class RequestScheduling extends Event
 {
     public const NAME = 'request.scheduling';
 
-    public function __construct(public Request $request)
-    {
-    }
+    public function __construct(public Request $request) {}
 }

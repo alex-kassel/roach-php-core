@@ -29,7 +29,7 @@ abstract class ExtensionTestCase extends TestCase
 
     protected function setUp(): void
     {
-        $this->dispatcher = new FakeDispatcher();
+        $this->dispatcher = new FakeDispatcher;
         $this->extension = $this->createExtension();
 
         $this->dispatcher->addSubscriber($this->extension);

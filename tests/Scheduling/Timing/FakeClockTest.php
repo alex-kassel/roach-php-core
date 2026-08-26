@@ -26,10 +26,10 @@ final class FakeClockTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->clock = new FakeClock();
+        $this->clock = new FakeClock;
     }
 
-    public function testWaitUntilTargetTime(): void
+    public function test_wait_until_target_time(): void
     {
         $now = $this->clock->now();
 
@@ -43,7 +43,7 @@ final class FakeClockTest extends TestCase
         self::assertSame(2, $now->diff($then2)->s);
     }
 
-    public function testDontWaitIfTargetDateIsInPast(): void
+    public function test_dont_wait_if_target_date_is_in_past(): void
     {
         $now = $this->clock->now();
 
@@ -52,9 +52,9 @@ final class FakeClockTest extends TestCase
         self::assertSame(0, $now->diff($then)->s);
     }
 
-    public function testRecordTimePassedSleepUntil(): void
+    public function test_record_time_passed_sleep_until(): void
     {
-        $clock = new FakeClock();
+        $clock = new FakeClock;
 
         self::assertSame(0, $clock->timePassed());
 
@@ -68,9 +68,9 @@ final class FakeClockTest extends TestCase
         self::assertSame(10, $clock->timePassed());
     }
 
-    public function testRecordTimePassedSleep(): void
+    public function test_record_time_passed_sleep(): void
     {
-        $clock = new FakeClock();
+        $clock = new FakeClock;
 
         self::assertSame(0, $clock->timePassed());
 
@@ -86,6 +86,6 @@ final class FakeClockTest extends TestCase
 
     protected function createClock(): ClockInterface
     {
-        return new FakeClock();
+        return new FakeClock;
     }
 }

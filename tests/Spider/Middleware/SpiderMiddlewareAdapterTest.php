@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace RoachPHP\Tests\Spider\Middleware;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RoachPHP\Http\Request;
 use RoachPHP\Http\Response;
@@ -33,9 +34,10 @@ final class SpiderMiddlewareAdapterTest extends TestCase
 {
     use InteractsWithRequestsAndResponses;
 
-    public function testDontDecorateClassIfItAlreadyImplementsTheFullInterface(): void
+    public function test_dont_decorate_class_if_it_already_implements_the_full_interface(): void
     {
-        $middleware = new class() implements SpiderMiddlewareInterface {
+        $middleware = new class implements SpiderMiddlewareInterface
+        {
             use Configurable;
 
             public function handleItem(ItemInterface $item, Response $response): ItemInterface
@@ -60,12 +62,11 @@ final class SpiderMiddlewareAdapterTest extends TestCase
         self::assertSame($middleware, $class);
     }
 
-    /**
-     * @dataProvider itemMiddlewareProvider
-     */
-    public function testItemMiddlewareImplementation(callable $testCase): void
+    #[DataProvider('itemMiddlewareProvider')]
+    public function test_item_middleware_implementation(callable $testCase): void
     {
-        $middleware = new class() implements ItemMiddlewareInterface {
+        $middleware = new class implements ItemMiddlewareInterface
+        {
             use Configurable;
 
             public function handleItem(ItemInterface $item, Response $response): ItemInterface
@@ -110,12 +111,11 @@ final class SpiderMiddlewareAdapterTest extends TestCase
         }];
     }
 
-    /**
-     * @dataProvider requestMiddlewareProvider
-     */
-    public function testRequestMiddlewareImplementation(callable $testCase): void
+    #[DataProvider('requestMiddlewareProvider')]
+    public function test_request_middleware_implementation(callable $testCase): void
     {
-        $middleware = new class() implements RequestMiddlewareInterface {
+        $middleware = new class implements RequestMiddlewareInterface
+        {
             use Configurable;
 
             public function handleRequest(Request $request, Response $response): Request
@@ -160,12 +160,11 @@ final class SpiderMiddlewareAdapterTest extends TestCase
         }];
     }
 
-    /**
-     * @dataProvider responseMiddlewareProvider
-     */
-    public function testResponseMiddlewareImplementation(callable $testCase): void
+    #[DataProvider('responseMiddlewareProvider')]
+    public function test_response_middleware_implementation(callable $testCase): void
     {
-        $middleware = new class() implements ResponseMiddlewareInterface {
+        $middleware = new class implements ResponseMiddlewareInterface
+        {
             use Configurable;
 
             public function handleResponse(Response $response): Response

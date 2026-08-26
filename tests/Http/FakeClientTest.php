@@ -30,10 +30,10 @@ final class FakeClientTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->client = new FakeClient();
+        $this->client = new FakeClient;
     }
 
-    public function testAssertRequestWasSent(): void
+    public function test_assert_request_was_sent(): void
     {
         $requestA = $this->makeRequest('::url-a::');
         $requestB = $this->makeRequest('::url-b::');
@@ -48,7 +48,7 @@ final class FakeClientTest extends TestCase
         $this->client->assertRequestWasSent($requestC);
     }
 
-    public function testAssertRequestWasNotSent(): void
+    public function test_assert_request_was_not_sent(): void
     {
         $requestA = $this->makeRequest('::url-a::');
         $requestB = $this->makeRequest('::url-b::');
@@ -63,7 +63,7 @@ final class FakeClientTest extends TestCase
         $this->client->assertRequestWasNotSent($requestC);
     }
 
-    public function testCallOnFulfilledCallbackWithResponseForEachRequest(): void
+    public function test_call_on_fulfilled_callback_with_response_for_each_request(): void
     {
         $requests = [
             $this->makeRequest('::url-a::')->withMeta('index', 0),

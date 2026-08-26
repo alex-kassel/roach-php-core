@@ -21,15 +21,13 @@ final class HttpErrorMiddleware implements ResponseMiddlewareInterface
 {
     use Configurable;
 
-    public function __construct(private readonly LoggerInterface $logger)
-    {
-    }
+    public function __construct(private readonly LoggerInterface $logger) {}
 
     public function handleResponse(Response $response): Response
     {
         $status = $response->getStatus();
 
-        if (200 <= $status && 300 > $status) {
+        if ($status >= 200 && $status < 300) {
             return $response;
         }
 
@@ -48,7 +46,7 @@ final class HttpErrorMiddleware implements ResponseMiddlewareInterface
             ],
         );
 
-        return $response->drop('Unallowed HTTP status: ' . $status);
+        return $response->drop('Unallowed HTTP status: '.$status);
     }
 
     private function defaultOptions(): array

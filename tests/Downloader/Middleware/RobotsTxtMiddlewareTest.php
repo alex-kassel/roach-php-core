@@ -45,21 +45,21 @@ final class RobotsTxtMiddlewareTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $dispatcher = new FakeDispatcher();
+        $dispatcher = new FakeDispatcher;
         $this->engine = new Engine(
-            new ArrayRequestScheduler(new FakeClock()),
-            new Downloader(new Client(), $dispatcher),
+            new ArrayRequestScheduler(new FakeClock),
+            new Downloader(new Client, $dispatcher),
             new ItemPipeline($dispatcher),
             new Processor($dispatcher),
             $dispatcher,
         );
 
-        $middleware = new RobotsTxtMiddleware();
+        $middleware = new RobotsTxtMiddleware;
         $middleware->configure(['fileName' => 'robots']);
         $this->middleware = DownloaderMiddlewareAdapter::fromMiddleware($middleware);
     }
 
-    public function testOnlyRequestsRobotsTxtOnceForRequestsToSameDomain(): void
+    public function test_only_requests_robots_txt_once_for_requests_to_same_domain(): void
     {
         $parseCallback = static fn () => yield ParseResult::fromValue(self::makeRequest('http://localhost:8000/test2'));
         $run = new Run(
@@ -73,7 +73,7 @@ final class RobotsTxtMiddlewareTest extends IntegrationTestCase
         $this->assertRouteWasCrawledTimes('/robots', 1);
     }
 
-    public function testAllowsRequestIfAllowedByRobotsTxt(): void
+    public function test_allows_request_if_allowed_by_robots_txt(): void
     {
         $run = new Run(
             [self::makeRequest('http://localhost:8000/test1')],
@@ -86,7 +86,7 @@ final class RobotsTxtMiddlewareTest extends IntegrationTestCase
         $this->assertRouteWasCrawled('/test1');
     }
 
-    public function testDropRequestIfForbiddenByRobotsTxt(): void
+    public function test_drop_request_if_forbidden_by_robots_txt(): void
     {
         $run = new Run(
             [self::makeRequest('http://localhost:8000/test2')],

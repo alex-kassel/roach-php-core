@@ -26,9 +26,7 @@ final class RequestDeduplicationMiddleware implements RequestMiddlewareInterface
      */
     private array $seenUris = [];
 
-    public function __construct(private LoggerInterface $logger)
-    {
-    }
+    public function __construct(private LoggerInterface $logger) {}
 
     public function handleRequest(Request $request): Request
     {
@@ -48,7 +46,6 @@ final class RequestDeduplicationMiddleware implements RequestMiddlewareInterface
             $replaceFlags |= \HTTP_URL_STRIP_QUERY;
         }
 
-        /** @phpstan-ignore argument.type */
         $uri = http_build_url($uri, $parts, $replaceFlags);
 
         if (\in_array($uri, $this->seenUris, true)) {

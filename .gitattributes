@@ -1,0 +1,18 @@
+* text=auto eol=lf
+
+tests/ export-ignore
+.github/ export-ignore
+.audit/ export-ignore
+.agents/ export-ignore
+phpunit.xml export-ignore
+phpunit.xml.dist export-ignore
+.phpunit.result.cache export-ignore
+.phpunit.cache export-ignore
+phpstan.neon export-ignore
+phpstan.neon.dist export-ignore
+phpstan-baseline.neon export-ignore
+pint.json export-ignore
+.gitignore export-ignore
+.gitattributes export-ignore
+composer.lock export-ignore
+

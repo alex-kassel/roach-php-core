@@ -18,17 +18,15 @@ use RoachPHP\Http\Request;
 final class Proxy
 {
     /**
-     * @param array<string, ProxyOptions> $proxyList
+     * @param  array<string, ProxyOptions>  $proxyList
      */
-    public function __construct(private readonly array $proxyList = [])
-    {
-    }
+    public function __construct(private readonly array $proxyList = []) {}
 
     public function optionsFor(Request $request): ProxyOptions
     {
         $host = $request->url->host;
 
-        if (null === $host) {
+        if ($host === null) {
             return ProxyOptions::make();
         }
 

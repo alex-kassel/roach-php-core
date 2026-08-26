@@ -21,7 +21,7 @@ final class FakeClock implements ClockInterface
 
     public function __construct()
     {
-        $this->now = new \DateTimeImmutable();
+        $this->now = new \DateTimeImmutable;
     }
 
     public function now(): \DateTimeImmutable

@@ -41,7 +41,7 @@ final class DefaultContainer implements ContainerInterface
 
     public function __construct()
     {
-        $this->container = (new Container())->delegate(new ReflectionContainer());
+        $this->container = (new Container)->delegate(new ReflectionContainer);
 
         $this->registerDefaultBindings();
     }

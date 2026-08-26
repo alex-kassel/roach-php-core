@@ -23,23 +23,23 @@ final class ShellCaster
     public static function castResponse(Response $response): array
     {
         return [
-            Caster::PREFIX_VIRTUAL . '.status' => $response->getStatus(),
-            Caster::PREFIX_VIRTUAL . '.uri' => $response->getUri(),
+            Caster::PREFIX_VIRTUAL.'.status' => $response->getStatus(),
+            Caster::PREFIX_VIRTUAL.'.uri' => $response->getUri(),
         ];
     }
 
     public static function castCrawler(Crawler $crawler): array
     {
         return [
-            Caster::PREFIX_VIRTUAL . '.count' => $crawler->count(),
-            Caster::PREFIX_VIRTUAL . '.html' => $crawler->outerHtml(),
+            Caster::PREFIX_VIRTUAL.'.count' => $crawler->count(),
+            Caster::PREFIX_VIRTUAL.'.html' => $crawler->outerHtml(),
         ];
     }
 
     public static function castLink(Link $link): array
     {
         return [
-            Caster::PREFIX_PROTECTED . '.uri' => $link->getUri(),
+            Caster::PREFIX_PROTECTED.'.uri' => $link->getUri(),
         ];
     }
 }

@@ -16,18 +16,17 @@ namespace RoachPHP\Downloader\Proxy;
 final class ProxyOptions
 {
     /**
-     * @param array<int, string> $excludedDomains
+     * @param  array<int, string>  $excludedDomains
      */
     public function __construct(
         private readonly ?string $httpProxyURL = null,
         private readonly ?string $httpsProxyURL = null,
         private readonly array $excludedDomains = [],
-    ) {
-    }
+    ) {}
 
     public static function make(): self
     {
-        return new self();
+        return new self;
     }
 
     /**
@@ -57,7 +56,7 @@ final class ProxyOptions
     /**
      * Configure the domains or TLDs that should not use proxies.
      *
-     * @param array<int, string>|string $domains
+     * @param  array<int, string>|string  $domains
      */
     public function exclude(array|string $domains): self
     {
@@ -70,8 +69,8 @@ final class ProxyOptions
 
     public function isEmpty(): bool
     {
-        return null === $this->httpProxyURL
-            && null === $this->httpsProxyURL
+        return $this->httpProxyURL === null
+            && $this->httpsProxyURL === null
             && \count($this->excludedDomains) === 0;
     }
 

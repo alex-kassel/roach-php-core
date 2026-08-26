@@ -25,7 +25,7 @@ final class ProxyTest extends TestCase
 {
     use InteractsWithRequestsAndResponses;
 
-    public function testReturnsEmptyProxyOptionsIfNoConfigurationExistsForRequestDomain(): void
+    public function test_returns_empty_proxy_options_if_no_configuration_exists_for_request_domain(): void
     {
         $proxy = new Proxy([]);
 
@@ -34,7 +34,7 @@ final class ProxyTest extends TestCase
         self::assertTrue($options->equals(ProxyOptions::make()));
     }
 
-    public function testReturnMatchingProxyOptionsForRequestIfConfigured(): void
+    public function test_return_matching_proxy_options_for_request_if_configured(): void
     {
         $proxy = new Proxy([
             'domain-1.com' => ProxyOptions::make()
@@ -62,7 +62,7 @@ final class ProxyTest extends TestCase
         );
     }
 
-    public function testReturnsWildcardOptionsIfConfiguredAndDomainDoesntMatch(): void
+    public function test_returns_wildcard_options_if_configured_and_domain_doesnt_match(): void
     {
         $proxy = new Proxy([
             'domain-1.com' => ProxyOptions::make()
@@ -81,7 +81,7 @@ final class ProxyTest extends TestCase
         );
     }
 
-    public function testPreferDomainConfigurationOverWildcard(): void
+    public function test_prefer_domain_configuration_over_wildcard(): void
     {
         $proxy = new Proxy([
             'domain-1.com' => ProxyOptions::make()

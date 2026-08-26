@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace RoachPHP\Tests\Extensions;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use RoachPHP\Events\RequestScheduling;
 use RoachPHP\Events\RequestSending;
 use RoachPHP\Extensions\ExtensionInterface;
@@ -26,14 +27,12 @@ final class MaxRequestExtensionTest extends ExtensionTestCase
 {
     use InteractsWithRequestsAndResponses;
 
-    /**
-     * @dataProvider thresholdProvider
-     */
-    public function testDontDropRequestIfThresholdNotReachedYet(int $threshold): void
+    #[DataProvider('thresholdProvider')]
+    public function test_dont_drop_request_if_threshold_not_reached_yet(int $threshold): void
     {
         $this->extension->configure(['limit' => $threshold]);
 
-        for ($i = 0; $threshold - 1 > $i; ++$i) {
+        for ($i = 0; $threshold - 1 > $i; $i++) {
             $this->dispatch(
                 new RequestSending($this->makeRequest()),
                 RequestSending::NAME,
@@ -46,14 +45,12 @@ final class MaxRequestExtensionTest extends ExtensionTestCase
         self::assertFalse($event->request->wasDropped());
     }
 
-    /**
-     * @dataProvider thresholdProvider
-     */
-    public function testDropRequestAfterThresholdWasReached(int $threshold): void
+    #[DataProvider('thresholdProvider')]
+    public function test_drop_request_after_threshold_was_reached(int $threshold): void
     {
         $this->extension->configure(['limit' => $threshold]);
 
-        for ($i = 0; $i < $threshold; ++$i) {
+        for ($i = 0; $i < $threshold; $i++) {
             $this->dispatch(
                 new RequestSending($this->makeRequest()),
                 RequestSending::NAME,
@@ -79,6 +76,6 @@ final class MaxRequestExtensionTest extends ExtensionTestCase
 
     protected function createExtension(): ExtensionInterface
     {
-        return new MaxRequestExtension();
+        return new MaxRequestExtension;
     }
 }

@@ -20,7 +20,7 @@ use RoachPHP\Downloader\Proxy\ProxyOptions;
 
 final class ArrayConfigurationLoaderTest extends TestCase
 {
-    public function testCreatesOneProxyConfigurationPerURL(): void
+    public function test_creates_one_proxy_configuration_per_url(): void
     {
         $loader = new ArrayConfigurationLoader([
             '::host-1::' => [
@@ -61,7 +61,7 @@ final class ArrayConfigurationLoaderTest extends TestCase
         );
     }
 
-    public function testCreatesAWildcardProxyIfOnlyAURLIsProvided(): void
+    public function test_creates_a_wildcard_proxy_if_only_aurl_is_provided(): void
     {
         $loader = new ArrayConfigurationLoader('::proxy-url::');
 
@@ -75,7 +75,7 @@ final class ArrayConfigurationLoaderTest extends TestCase
         );
     }
 
-    public function testConfiguresTheSameURLForAllProtocolsIfOnlyAURLIsProvided(): void
+    public function test_configures_the_same_url_for_all_protocols_if_only_aurl_is_provided(): void
     {
         $loader = new ArrayConfigurationLoader([
             '::host::' => '::proxy-url::',

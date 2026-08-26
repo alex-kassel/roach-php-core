@@ -26,7 +26,7 @@ final class CookieMiddleware implements RequestMiddlewareInterface
 
     public function __construct(?CookieJarInterface $cookieJar = null)
     {
-        $this->cookieJar = $cookieJar ?: new CookieJar();
+        $this->cookieJar = $cookieJar ?: new CookieJar;
     }
 
     public function handleRequest(Request $request): Request

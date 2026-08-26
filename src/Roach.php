@@ -34,8 +34,8 @@ final class Roach
 
     public static function fake(): FakeRunner
     {
-        if (null === self::$runnerFake) {
-            self::$runnerFake = new FakeRunner();
+        if (self::$runnerFake === null) {
+            self::$runnerFake = new FakeRunner;
         }
 
         return self::$runnerFake;
@@ -85,8 +85,8 @@ final class Roach
 
     private static function getContainer(): ContainerInterface
     {
-        if (null === self::$container) {
-            self::$container = new DefaultContainer();
+        if (self::$container === null) {
+            self::$container = new DefaultContainer;
         }
 
         return self::$container;

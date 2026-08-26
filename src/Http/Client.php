@@ -25,11 +25,11 @@ final class Client implements ClientInterface
 
     public function __construct(?GuzzleClient $client = null)
     {
-        $this->client = $client ?? new GuzzleClient();
+        $this->client = $client ?? new GuzzleClient;
     }
 
     /**
-     * @param list<Request> $requests
+     * @param  list<Request>  $requests
      */
     public function pool(
         array $requests,

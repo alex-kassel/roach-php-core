@@ -20,7 +20,5 @@ final class RequestSending extends Event
 {
     public const NAME = 'request.sending';
 
-    public function __construct(public Request $request)
-    {
-    }
+    public function __construct(public Request $request) {}
 }

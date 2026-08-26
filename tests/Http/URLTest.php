@@ -23,7 +23,7 @@ use RoachPHP\Http\URL;
  */
 final class URLTest extends TestCase
 {
-    public function testParseAURLFromAString(): void
+    public function test_parse_aurl_from_a_string(): void
     {
         $url = URL::parse(
             'https://username:password@sub.example.com:9000/foo/bar#anchor',
@@ -38,7 +38,7 @@ final class URLTest extends TestCase
         self::assertSame('anchor', $url->fragment);
     }
 
-    public function testReturnNullIfPartIsNotPresentOnURL(): void
+    public function test_return_null_if_part_is_not_present_on_url(): void
     {
         $url = URL::parse('http://example.com');
 
@@ -49,28 +49,28 @@ final class URLTest extends TestCase
         self::assertNull($url->fragment);
     }
 
-    public function testItParsesTheQueryParametersOfTheURLIfPresent(): void
+    public function test_it_parses_the_query_parameters_of_the_url_if_present(): void
     {
         $url = URL::parse('http://example.com?foo=bar&baz=qux');
 
         self::assertTrue($url->query->equals('foo=bar&baz=qux'));
     }
 
-    public function testReturnsAnEmptyQueryIfNoQueryIsPresentOnURL(): void
+    public function test_returns_an_empty_query_if_no_query_is_present_on_url(): void
     {
         $url = URL::parse('http://example.com');
 
         self::assertTrue($url->query->isEmpty());
     }
 
-    public function testThrowExceptionForMalformedURL(): void
+    public function test_throw_exception_for_malformed_url(): void
     {
         $this->expectException(MalformedUriException::class);
 
         URL::parse('http:///example.com');
     }
 
-    public function testIsEqualIfURLsAreIdentical(): void
+    public function test_is_equal_if_ur_ls_are_identical(): void
     {
         $url1 = URL::parse(
             'https://username:password@sub.example.com:9000/foo/bar#anchor',
@@ -83,7 +83,7 @@ final class URLTest extends TestCase
     }
 
     #[DataProvider('differentUrlsProvider')]
-    public function testIsNotEqualIfURLsAreDifferent(string $url1, string $url2): void
+    public function test_is_not_equal_if_ur_ls_are_different(string $url1, string $url2): void
     {
         $url1 = URL::parse($url1);
         $url2 = URL::parse($url2);
@@ -129,7 +129,7 @@ final class URLTest extends TestCase
         ];
     }
 
-    public function testCompareEqualityWithStrings(): void
+    public function test_compare_equality_with_strings(): void
     {
         $url = URL::parse(
             'https://username:password@sub.example.com:9000/foo/bar#anchor',
@@ -143,7 +143,7 @@ final class URLTest extends TestCase
         );
     }
 
-    public function testEqualityCheckIgnoresOrderOfQueryParameters(): void
+    public function test_equality_check_ignores_order_of_query_parameters(): void
     {
         $url = URL::parse('https://example.com?foo=bar&baz=qux');
 
@@ -151,7 +151,7 @@ final class URLTest extends TestCase
     }
 
     #[DataProvider('urlProvider')]
-    public function testCanBeTurnedIntoAString(string $urlString): void
+    public function test_can_be_turned_into_a_string(string $urlString): void
     {
         $url = URL::parse($urlString);
 

@@ -26,14 +26,22 @@ abstract class IntegrationTestCase extends TestCase
     {
         $this->skipIfServerNotRunning();
 
-        if (\file_exists(__DIR__ . '/Server/tmp/crawled.json')) {
-            \unlink(__DIR__ . '/Server/tmp/crawled.json');
+        if (\file_exists(__DIR__.'/Server/tmp/crawled.json')) {
+            \unlink(__DIR__.'/Server/tmp/crawled.json');
         }
     }
 
     protected function skipIfServerNotRunning(): void
     {
-        if (false === \file_get_contents("{$this->serverUrl}/ping")) {
+        $context = stream_context_create([
+            'http' => [
+                'timeout' => 0.5,
+                'ignore_errors' => true,
+            ],
+        ]);
+
+        $res = @\file_get_contents("{$this->serverUrl}/ping", false, $context);
+        if ($res === false) {
             self::markTestSkipped('Skipping integration test. Server not running.');
         }
     }
@@ -60,7 +68,7 @@ abstract class IntegrationTestCase extends TestCase
     {
         $response = \file_get_contents("{$this->serverUrl}/crawled-routes");
 
-        if (!$response) {
+        if (! $response) {
             return [];
         }
 

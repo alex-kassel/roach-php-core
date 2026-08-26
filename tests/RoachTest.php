@@ -28,14 +28,14 @@ final class RoachTest extends TestCase
         Roach::restore();
     }
 
-    public function testFakingRunnerReturnsRunnerFake(): void
+    public function test_faking_runner_returns_runner_fake(): void
     {
         $runner = Roach::fake();
 
         self::assertInstanceOf(FakeRunner::class, $runner);
     }
 
-    public function testUseFakeRunnerIfItExists(): void
+    public function test_use_fake_runner_if_it_exists(): void
     {
         $runner = Roach::fake();
 

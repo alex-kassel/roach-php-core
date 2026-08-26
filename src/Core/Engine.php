@@ -36,15 +36,14 @@ final class Engine implements EngineInterface
         private ItemPipelineInterface $itemPipeline,
         private Processor $responseProcessor,
         private EventDispatcherInterface $eventDispatcher,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<int, ItemInterface>
      */
     public function collect(Run $run): array
     {
-        $extension = new ScrapedItemCollectorExtension();
+        $extension = new ScrapedItemCollectorExtension;
         $this->eventDispatcher->addSubscriber($extension);
 
         $this->start($run);
@@ -72,7 +71,7 @@ final class Engine implements EngineInterface
 
     private function work(Run $run): void
     {
-        while (!$this->scheduler->empty()) {
+        while (! $this->scheduler->empty()) {
             foreach ($this->scheduler->nextRequests($run->concurrency) as $request) {
                 $this->downloader->prepare($request);
             }
@@ -90,7 +89,7 @@ final class Engine implements EngineInterface
             // actually got sent.
             $scheduledRequests = $this->downloader->scheduledRequests();
 
-            while ($scheduledRequests < $run->concurrency && !$this->scheduler->empty()) {
+            while ($scheduledRequests < $run->concurrency && ! $this->scheduler->empty()) {
                 $difference = $run->concurrency - $scheduledRequests;
 
                 foreach ($this->scheduler->forceNextRequests($difference) as $request) {

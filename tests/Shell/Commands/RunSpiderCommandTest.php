@@ -30,10 +30,10 @@ final class RunSpiderCommandTest extends TestCase
         Roach::restore();
     }
 
-    public function testStartRunForProvidedSpider(): void
+    public function test_start_run_for_provided_spider(): void
     {
         $runner = Roach::fake();
-        $commandTester = new CommandTester(new RunSpiderCommand());
+        $commandTester = new CommandTester(new RunSpiderCommand);
 
         $commandTester->execute([
             'spider' => TestSpider::class,
@@ -43,9 +43,9 @@ final class RunSpiderCommandTest extends TestCase
         $runner->assertRunWasStarted(TestSpider::class);
     }
 
-    public function testPrintsAnErrorIfTheProvidedSpiderClassWasInvalid(): void
+    public function test_prints_an_error_if_the_provided_spider_class_was_invalid(): void
     {
-        $commandTester = new CommandTester(new RunSpiderCommand());
+        $commandTester = new CommandTester(new RunSpiderCommand);
 
         $commandTester->execute([
             'spider' => '::not-a-spider::',

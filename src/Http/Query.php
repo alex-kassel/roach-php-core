@@ -16,14 +16,12 @@ namespace RoachPHP\Http;
 final class Query
 {
     /**
-     * @param array<string, mixed> $values
+     * @param  array<string, mixed>  $values
      */
-    private function __construct(private array $values)
-    {
-    }
+    private function __construct(private array $values) {}
 
     /**
-     * @param array<string, mixed> $values
+     * @param  array<string, mixed>  $values
      */
     public static function fromArray(array $values): self
     {
@@ -58,7 +56,7 @@ final class Query
      */
     public function get(string $key): mixed
     {
-        if (!$this->has($key)) {
+        if (! $this->has($key)) {
             throw UnknownQueryParameterException::forParameter($key);
         }
 
@@ -79,13 +77,13 @@ final class Query
      * an integer.
      *
      * @throws QueryParameterTypeMismatchException thrown if the value is non-numeric
-     * @throws UnknownQueryParameterException      thrown if no parameter exists for the given key
+     * @throws UnknownQueryParameterException thrown if no parameter exists for the given key
      */
     public function getInt(string $key): int
     {
         $value = $this->get($key);
 
-        if (!\is_numeric($value)) {
+        if (! \is_numeric($value)) {
             throw QueryParameterTypeMismatchException::forInt($key);
         }
 
@@ -97,13 +95,13 @@ final class Query
      * an integer.
      *
      * @throws QueryParameterTypeMismatchException thrown if the value is non-numeric
-     * @throws UnknownQueryParameterException      thrown if no parameter exists for the given key
+     * @throws UnknownQueryParameterException thrown if no parameter exists for the given key
      */
     public function getFloat(string $key): float
     {
         $value = $this->get($key);
 
-        if (!\is_numeric($value)) {
+        if (! \is_numeric($value)) {
             throw QueryParameterTypeMismatchException::forFloat($key);
         }
 
@@ -116,16 +114,16 @@ final class Query
      *
      * @psalm-suppress MixedReturnTypeCoercion
      *
-     * @throws QueryParameterTypeMismatchException thrown if the value is not an array
-     * @throws UnknownQueryParameterException      thrown if no parameter exists for the given key
-     *
      * @return array<string, mixed>
+     *
+     * @throws QueryParameterTypeMismatchException thrown if the value is not an array
+     * @throws UnknownQueryParameterException thrown if no parameter exists for the given key
      */
     public function getArray(string $key): array
     {
         $value = $this->get($key);
 
-        if (!\is_array($value)) {
+        if (! \is_array($value)) {
             throw QueryParameterTypeMismatchException::forArray($key);
         }
 

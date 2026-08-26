@@ -19,10 +19,10 @@ use RoachPHP\Spider\SpiderInterface;
 interface NamespaceResolverInterface
 {
     /**
+     * @return class-string<SpiderInterface>
+     *
      * @throws InvalidSpiderException Thrown if the provided class does not exist
      * @throws InvalidSpiderException thrown if the provided class does not implement SpiderInterface
-     *
-     * @return class-string<SpiderInterface>
      */
     public function resolveSpiderNamespace(string $spiderClass): string;
 }

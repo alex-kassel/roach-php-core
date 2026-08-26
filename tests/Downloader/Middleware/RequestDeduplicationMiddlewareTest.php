@@ -34,11 +34,11 @@ final class RequestDeduplicationMiddlewareTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->logger = new FakeLogger();
+        $this->logger = new FakeLogger;
         $this->middleware = new RequestDeduplicationMiddleware($this->logger);
     }
 
-    public function testDropsRequestIfItWasAlreadySeenBefore(): void
+    public function test_drops_request_if_it_was_already_seen_before(): void
     {
         $request = $this->makeRequest('https://example.com');
         $this->middleware->configure([]);
@@ -50,7 +50,7 @@ final class RequestDeduplicationMiddlewareTest extends TestCase
         self::assertTrue($request->wasDropped());
     }
 
-    public function testPassesRequestAlongIfItHasntBeenSeenBefore(): void
+    public function test_passes_request_along_if_it_hasnt_been_seen_before(): void
     {
         $requestA = $this->makeRequest('https://example.com/a');
         $requestB = $this->makeRequest('https://example.com/b');
@@ -63,7 +63,7 @@ final class RequestDeduplicationMiddlewareTest extends TestCase
         self::assertFalse($requestB->wasDropped());
     }
 
-    public function testLogDroppedRequestsIfLoggerWasProvided(): void
+    public function test_log_dropped_requests_if_logger_was_provided(): void
     {
         $request = $this->makeRequest('https://example.com');
         $this->middleware->configure([]);
@@ -80,7 +80,7 @@ final class RequestDeduplicationMiddlewareTest extends TestCase
         );
     }
 
-    public function testIgnoresTrailingSlashesByDefaultWhenComparingUrls(): void
+    public function test_ignores_trailing_slashes_by_default_when_comparing_urls(): void
     {
         $requestA = $this->makeRequest('https://example.com');
         $requestB = $this->makeRequest('https://example.com/');
@@ -92,7 +92,7 @@ final class RequestDeduplicationMiddlewareTest extends TestCase
         self::assertTrue($requestB->wasDropped());
     }
 
-    public function testCanBeConfiguredToIncludeTrailingSlashesWhenComparingUrls(): void
+    public function test_can_be_configured_to_include_trailing_slashes_when_comparing_urls(): void
     {
         $requestA = $this->makeRequest('https://example.com');
         $requestB = $this->makeRequest('https://example.com/');
@@ -105,7 +105,7 @@ final class RequestDeduplicationMiddlewareTest extends TestCase
         self::assertFalse($requestB->wasDropped());
     }
 
-    public function testHandlesTrailingSlashesCorrectlyWhenUrlHasFragments(): void
+    public function test_handles_trailing_slashes_correctly_when_url_has_fragments(): void
     {
         $requestA = $this->makeRequest('https://example.com#fragment');
         $requestB = $this->makeRequest('https://example.com/#fragment');
@@ -120,7 +120,7 @@ final class RequestDeduplicationMiddlewareTest extends TestCase
         self::assertTrue($requestB->wasDropped());
     }
 
-    public function testIncludesUrlFragmentsByDefaultWhenComparingUrls(): void
+    public function test_includes_url_fragments_by_default_when_comparing_urls(): void
     {
         $requestA = $this->makeRequest('https://example.com');
         $requestB = $this->makeRequest('https://example.com#fragment');
@@ -132,7 +132,7 @@ final class RequestDeduplicationMiddlewareTest extends TestCase
         self::assertFalse($requestB->wasDropped());
     }
 
-    public function testCanBeConfiguredToIgnoreUrlFragments(): void
+    public function test_can_be_configured_to_ignore_url_fragments(): void
     {
         $requestA = $this->makeRequest('https://example.com');
         $requestB = $this->makeRequest('https://example.com#fragment');
@@ -144,7 +144,7 @@ final class RequestDeduplicationMiddlewareTest extends TestCase
         self::assertTrue($requestB->wasDropped());
     }
 
-    public function testIncludesQueryStringByDefaultWhenComparingUrls(): void
+    public function test_includes_query_string_by_default_when_comparing_urls(): void
     {
         $requestA = $this->makeRequest('https://example.com');
         $requestB = $this->makeRequest('https://example.com?foo=bar');
@@ -157,7 +157,7 @@ final class RequestDeduplicationMiddlewareTest extends TestCase
         self::assertFalse($requestB->wasDropped());
     }
 
-    public function testCanBeConfiguredToIgnoreQueryStringsWhenComparingUrls(): void
+    public function test_can_be_configured_to_ignore_query_strings_when_comparing_urls(): void
     {
         $requestA = $this->makeRequest('https://example.com');
         $requestB = $this->makeRequest('https://example.com?foo=bar');

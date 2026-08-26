@@ -24,7 +24,7 @@ use RoachPHP\Spider\ParseResult;
  */
 final class ParseResultTest extends TestCase
 {
-    public function testPassesRequestToCallbackIfResultIsRequest(): void
+    public function test_passes_request_to_callback_if_result_is_request(): void
     {
         $result = ParseResult::request('GET', '::url::', static fn (Response $response) => yield from []);
 
@@ -34,7 +34,7 @@ final class ParseResultTest extends TestCase
         );
     }
 
-    public function testPassesItemToCallbackIfResultIsItem(): void
+    public function test_passes_item_to_callback_if_result_is_item(): void
     {
         $result = ParseResult::item(['::key::' => '::value::']);
 

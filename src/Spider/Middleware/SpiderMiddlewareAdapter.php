@@ -25,8 +25,7 @@ final class SpiderMiddlewareAdapter implements SpiderMiddlewareInterface
 {
     private function __construct(
         private ItemMiddlewareInterface|RequestMiddlewareInterface|ResponseMiddlewareInterface $middleware,
-    ) {
-    }
+    ) {}
 
     public static function fromMiddleware(
         ItemMiddlewareInterface|RequestMiddlewareInterface|ResponseMiddlewareInterface $middleware,

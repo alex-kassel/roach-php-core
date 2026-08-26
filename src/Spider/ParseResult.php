@@ -20,9 +20,7 @@ use RoachPHP\ItemPipeline\ItemInterface;
 
 final class ParseResult
 {
-    private function __construct(private ItemInterface|Request $value)
-    {
-    }
+    private function __construct(private ItemInterface|Request $value) {}
 
     public static function fromValue(ItemInterface|Request $value): self
     {
@@ -40,7 +38,7 @@ final class ParseResult
     }
 
     /**
-     * @param callable(Response): \Generator<ParseResult> $parseCallback
+     * @param  callable(Response): \Generator<ParseResult>  $parseCallback
      */
     public static function request(
         string $method,
@@ -52,8 +50,8 @@ final class ParseResult
     }
 
     /**
-     * @param \Closure(Request): void       $ifRequest
-     * @param \Closure(ItemInterface): void $ifItem
+     * @param  \Closure(Request): void  $ifRequest
+     * @param  \Closure(ItemInterface): void  $ifItem
      */
     public function apply(\Closure $ifRequest, \Closure $ifItem): void
     {

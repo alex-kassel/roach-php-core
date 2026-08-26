@@ -20,7 +20,5 @@ final class RunFinished extends Event
 {
     public const NAME = 'run.finished';
 
-    public function __construct(public Run $run)
-    {
-    }
+    public function __construct(public Run $run) {}
 }

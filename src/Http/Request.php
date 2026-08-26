@@ -22,8 +22,8 @@ use RoachPHP\Support\HasMetaData;
 
 final class Request implements DroppableInterface
 {
-    use HasMetaData;
     use Droppable;
+    use HasMetaData;
 
     public URL $url;
 
@@ -43,7 +43,7 @@ final class Request implements DroppableInterface
     private array $options;
 
     /**
-     * @param callable(Response): \Generator<ParseResult> $parseMethod
+     * @param  callable(Response): \Generator<ParseResult>  $parseMethod
      */
     public function __construct(string $method, string $uri, callable $parseMethod, array $options = [])
     {
@@ -74,7 +74,7 @@ final class Request implements DroppableInterface
     }
 
     /**
-     * @param list<string>|string $value
+     * @param  list<string>|string  $value
      */
     public function addHeader(string $name, mixed $value): self
     {
@@ -100,7 +100,7 @@ final class Request implements DroppableInterface
     }
 
     /**
-     * @param \Closure(RequestInterface): RequestInterface $callback
+     * @param  \Closure(RequestInterface): RequestInterface  $callback
      */
     public function withPsrRequest(\Closure $callback): self
     {

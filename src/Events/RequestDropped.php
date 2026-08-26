@@ -20,7 +20,5 @@ final class RequestDropped extends Event
 {
     public const NAME = 'request.dropped';
 
-    public function __construct(public Request $request)
-    {
-    }
+    public function __construct(public Request $request) {}
 }

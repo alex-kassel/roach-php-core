@@ -38,7 +38,7 @@ final class LoggerExtensionTest extends ExtensionTestCase
      */
     private FakeLogger $logger;
 
-    public function testLogWhenRunStarts(): void
+    public function test_log_when_run_starts(): void
     {
         self::assertFalse(
             $this->logger->messageWasLogged('info', 'Run starting'),
@@ -51,7 +51,7 @@ final class LoggerExtensionTest extends ExtensionTestCase
         );
     }
 
-    public function testLogWhenRunFinished(): void
+    public function test_log_when_run_finished(): void
     {
         self::assertFalse(
             $this->logger->messageWasLogged('info', 'Run finished'),
@@ -64,7 +64,7 @@ final class LoggerExtensionTest extends ExtensionTestCase
         );
     }
 
-    public function testLogWhenItemGotDropped(): void
+    public function test_log_when_item_got_dropped(): void
     {
         self::assertFalse(
             $this->logger->messageWasLogged('info', 'Item dropped'),
@@ -81,7 +81,7 @@ final class LoggerExtensionTest extends ExtensionTestCase
         );
     }
 
-    public function testLogWhenRequestWasDropped(): void
+    public function test_log_when_request_was_dropped(): void
     {
         self::assertFalse(
             $this->logger->messageWasLogged('info', 'Request dropped'),
@@ -98,7 +98,7 @@ final class LoggerExtensionTest extends ExtensionTestCase
         );
     }
 
-    public function testLogWhenRequestWasSent(): void
+    public function test_log_when_request_was_sent(): void
     {
         self::assertFalse(
             $this->logger->messageWasLogged('info', 'Dispatching request'),
@@ -114,7 +114,7 @@ final class LoggerExtensionTest extends ExtensionTestCase
         );
     }
 
-    public function testLogWhenItemWasScraped(): void
+    public function test_log_when_item_was_scraped(): void
     {
         self::assertFalse(
             $this->logger->messageWasLogged('info', 'Item scraped'),
@@ -130,7 +130,7 @@ final class LoggerExtensionTest extends ExtensionTestCase
 
     protected function createExtension(): ExtensionInterface
     {
-        $this->logger = new FakeLogger();
+        $this->logger = new FakeLogger;
 
         return new LoggerExtension($this->logger);
     }

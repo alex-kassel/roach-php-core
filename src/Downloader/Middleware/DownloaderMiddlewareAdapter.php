@@ -24,8 +24,7 @@ final class DownloaderMiddlewareAdapter implements DownloaderMiddlewareInterface
 {
     private function __construct(
         private RequestMiddlewareInterface|ResponseMiddlewareInterface $middleware,
-    ) {
-    }
+    ) {}
 
     public static function fromMiddleware(
         RequestMiddlewareInterface|ResponseMiddlewareInterface $middleware,

@@ -46,7 +46,7 @@ abstract class AbstractItem implements ItemInterface
             return $default;
         }
 
-        if (!$property->isPublic()) {
+        if (! $property->isPublic()) {
             return $default;
         }
 
@@ -65,7 +65,7 @@ abstract class AbstractItem implements ItemInterface
             );
         }
 
-        if (!$property->isPublic()) {
+        if (! $property->isPublic()) {
             throw new \InvalidArgumentException(
                 \sprintf('No public property %s exists on class %s', $key, static::class),
             );
@@ -97,7 +97,7 @@ abstract class AbstractItem implements ItemInterface
     final public function offsetGet(mixed $offset): mixed
     {
         // @phpstan-ignore function.alreadyNarrowedType
-        if (!\is_string($offset)) {
+        if (! \is_string($offset)) {
             throw new \InvalidArgumentException('Offset needs to be a string');
         }
 
@@ -106,7 +106,7 @@ abstract class AbstractItem implements ItemInterface
 
     final public function offsetSet(mixed $offset, mixed $value): void
     {
-        if (!\is_string($offset)) {
+        if (! \is_string($offset)) {
             throw new \InvalidArgumentException('Offset needs to be a string');
         }
 

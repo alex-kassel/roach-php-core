@@ -30,7 +30,7 @@ final class ResponseTest extends TestCase
     use DroppableTestCase;
     use InteractsWithRequestsAndResponses;
 
-    public function testCanAccessDomCrawlerDirectlyFromResponse(): void
+    public function test_can_access_dom_crawler_directly_from_response(): void
     {
         $response = $this->makeResponse(body: '<html lang="en"><body><a href="https://roach-php.dev">Docs</a></body></html>');
 
@@ -40,10 +40,7 @@ final class ResponseTest extends TestCase
     }
 
     #[DataProvider('responseCodeProvider')]
-    /**
-     * @dataProvider responseCodeProvider
-     */
-    public function testCanRetrieveStatusCodeOfOriginalResponse(int $statusCode): void
+    public function test_can_retrieve_status_code_of_original_response(int $statusCode): void
     {
         $response = new Response(new \GuzzleHttp\Psr7\Response($statusCode), $this->makeRequest());
 
@@ -64,10 +61,7 @@ final class ResponseTest extends TestCase
     }
 
     #[DataProvider('responseBodyProvider')]
-    /**
-     * @dataProvider responseBodyProvider
-     */
-    public function testCanRetrieveHtmlBodyOfOriginalResponse(callable $getBody): void
+    public function test_can_retrieve_html_body_of_original_response(callable $getBody): void
     {
         $body = '<html lang="en"><body><p>Hello, world!</p></body>';
         $response = new Response(
@@ -85,7 +79,9 @@ final class ResponseTest extends TestCase
 
             'stream' => [static function (string $body) {
                 $stream = \fopen('php://memory', 'r+b');
-                self::assertIsResource($stream);
+                if (! \is_resource($stream)) {
+                    throw new \RuntimeException('Failed to open memory stream');
+                }
                 \fwrite($stream, $body);
                 \rewind($stream);
 
@@ -94,7 +90,9 @@ final class ResponseTest extends TestCase
 
             'StreamInterface' => [static function (string $body) {
                 $stream = \fopen('php://memory', 'r+b');
-                self::assertIsResource($stream);
+                if (! \is_resource($stream)) {
+                    throw new \RuntimeException('Failed to open memory stream');
+                }
                 \fwrite($stream, $body);
                 \rewind($stream);
 
@@ -103,7 +101,7 @@ final class ResponseTest extends TestCase
         ];
     }
 
-    public function testCanUpdateResponseBody(): void
+    public function test_can_update_response_body(): void
     {
         $originalBody = '<html lang="en"><body><p>Old</p></body></html>';
         $newBody = '<html lang="en"><body><p>New</p></body></html>';
@@ -117,7 +115,7 @@ final class ResponseTest extends TestCase
         self::assertSame($newBody, $response->getBody());
     }
 
-    public function testUpdatingResponseBodyUpdatesCrawler(): void
+    public function test_updating_response_body_updates_crawler(): void
     {
         $originalBody = '<html lang="en"><body><p>Old</p></body></html>';
         $newBody = '<html lang="en"><body><p>New</p></body></html>';
@@ -131,7 +129,7 @@ final class ResponseTest extends TestCase
         self::assertSame('New', $response->filter('p')->text(''));
     }
 
-    public function testDomCrawlerIsLazyLoadedOnDemand(): void
+    public function test_dom_crawler_is_lazy_loaded_on_demand(): void
     {
         $response = $this->makeResponse(body: '<html lang="en"><body></body></html>');
 

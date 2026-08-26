@@ -25,9 +25,9 @@ final class CookieMiddlewareTest extends TestCase
 {
     use InteractsWithRequestsAndResponses;
 
-    public function testAddCookieJarToRequestOptions(): void
+    public function test_add_cookie_jar_to_request_options(): void
     {
-        $jar = new CookieJar();
+        $jar = new CookieJar;
         $middleware = new CookieMiddleware($jar);
         $request = $this->makeRequest();
 

@@ -19,11 +19,9 @@ use RoachPHP\ItemPipeline\Processors\CustomItemProcessor;
 final class TestCustomItemProcessor extends CustomItemProcessor
 {
     /**
-     * @param array<int, class-string<ItemInterface>> $handledItemClasses
+     * @param  array<int, class-string<ItemInterface>>  $handledItemClasses
      */
-    public function __construct(private array $handledItemClasses)
-    {
-    }
+    public function __construct(private array $handledItemClasses) {}
 
     public function processItem(ItemInterface $item): ItemInterface
     {

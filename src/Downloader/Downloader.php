@@ -38,8 +38,7 @@ final class Downloader
     public function __construct(
         private ClientInterface $client,
         private EventDispatcherInterface $eventDispatcher,
-    ) {
-    }
+    ) {}
 
     public function withMiddleware(DownloaderMiddlewareInterface ...$middleware): self
     {
@@ -154,7 +153,7 @@ final class Downloader
             return;
         }
 
-        if (null !== $callback) {
+        if ($callback !== null) {
             $callback($response);
         }
     }

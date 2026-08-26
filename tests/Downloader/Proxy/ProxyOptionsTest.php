@@ -22,7 +22,7 @@ use RoachPHP\Downloader\Proxy\ProxyOptions;
  */
 final class ProxyOptionsTest extends TestCase
 {
-    public function testCanBeConvertedToAnArray(): void
+    public function test_can_be_converted_to_an_array(): void
     {
         $proxy = new ProxyOptions(
             '::http-proxy::',
@@ -40,14 +40,14 @@ final class ProxyOptionsTest extends TestCase
         );
     }
 
-    public function testContainsNoOptionsByDefault(): void
+    public function test_contains_no_options_by_default(): void
     {
-        $proxy = new ProxyOptions();
+        $proxy = new ProxyOptions;
 
         self::assertSame([], $proxy->toArray());
     }
 
-    public function testConfigureHttpProxyURL(): void
+    public function test_configure_http_proxy_url(): void
     {
         $proxy = ProxyOptions::make()->http('::http-proxy::');
 
@@ -57,7 +57,7 @@ final class ProxyOptionsTest extends TestCase
         );
     }
 
-    public function testConfigureHttpsProxyURL(): void
+    public function test_configure_https_proxy_url(): void
     {
         $proxy = ProxyOptions::make()->https('::https-proxy::');
 
@@ -67,7 +67,7 @@ final class ProxyOptionsTest extends TestCase
         );
     }
 
-    public function testConfigureMultipleExcludedDomains(): void
+    public function test_configure_multiple_excluded_domains(): void
     {
         $proxy = ProxyOptions::make()
             ->exclude(['::domain-1::', '::domain-2::']);
@@ -78,7 +78,7 @@ final class ProxyOptionsTest extends TestCase
         );
     }
 
-    public function testConfigureSingleExcludedDomainAsString(): void
+    public function test_configure_single_excluded_domain_as_string(): void
     {
         $proxy = ProxyOptions::make()
             ->exclude('::excluded-domain::');
@@ -89,7 +89,7 @@ final class ProxyOptionsTest extends TestCase
         );
     }
 
-    public function testConfigureSameProxyForHttpAndHttps(): void
+    public function test_configure_same_proxy_for_http_and_https(): void
     {
         $proxy = ProxyOptions::allProtocols('::proxy-url::');
 
@@ -102,7 +102,7 @@ final class ProxyOptionsTest extends TestCase
         );
     }
 
-    public function testObjectIsImmutable(): void
+    public function test_object_is_immutable(): void
     {
         $proxy1 = ProxyOptions::make()->http('::http-proxy-1::');
         $proxy2 = $proxy1->http('::http-proxy-2::');
@@ -117,7 +117,7 @@ final class ProxyOptionsTest extends TestCase
         );
     }
 
-    public function testEquality(): void
+    public function test_equality(): void
     {
         $proxy1 = new ProxyOptions(
             '::http-proxy-1::',
@@ -148,7 +148,7 @@ final class ProxyOptionsTest extends TestCase
         self::assertFalse($proxy3->equals($proxy2));
     }
 
-    public function testFluentInterface(): void
+    public function test_fluent_interface(): void
     {
         $proxy = ProxyOptions::make()
             ->http('::http-proxy::')
@@ -166,7 +166,7 @@ final class ProxyOptionsTest extends TestCase
     }
 
     #[DataProvider('emptyProxyProvider')]
-    public function testEmpty(ProxyOptions $options, bool $expected): void
+    public function test_empty(ProxyOptions $options, bool $expected): void
     {
         self::assertEquals($expected, $options->isEmpty());
     }
@@ -187,7 +187,7 @@ final class ProxyOptionsTest extends TestCase
                 false,
             ],
             'not empty' => [
-                new ProxyOptions(),
+                new ProxyOptions,
                 true,
             ],
         ];

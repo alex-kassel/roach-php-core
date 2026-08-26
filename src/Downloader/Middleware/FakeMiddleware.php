@@ -37,20 +37,19 @@ final class FakeMiddleware implements DownloaderMiddlewareInterface
     private array $responsesHandled = [];
 
     /**
-     * @param ?\Closure(Request): Request   $requestHandler
-     * @param ?\Closure(Response): Response $responseHandler
+     * @param  ?\Closure(Request): Request  $requestHandler
+     * @param  ?\Closure(Response): Response  $responseHandler
      */
     public function __construct(
         private ?\Closure $requestHandler = null,
         private ?\Closure $responseHandler = null,
-    ) {
-    }
+    ) {}
 
     public function handleRequest(Request $request): Request
     {
         $this->requestsHandled[] = $request;
 
-        if (null !== $this->requestHandler) {
+        if ($this->requestHandler !== null) {
             return ($this->requestHandler)($request);
         }
 
@@ -61,7 +60,7 @@ final class FakeMiddleware implements DownloaderMiddlewareInterface
     {
         $this->responsesHandled[] = $response;
 
-        if (null !== $this->responseHandler) {
+        if ($this->responseHandler !== null) {
             return ($this->responseHandler)($response);
         }
 

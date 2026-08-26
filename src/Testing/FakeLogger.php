@@ -32,8 +32,8 @@ final class FakeLogger implements LoggerInterface
     ];
 
     /**
-     * @param string                  $message
-     * @param array<array-key, mixed> $context
+     * @param  string  $message
+     * @param  array<array-key, mixed>  $context
      */
     public function emergency($message, array $context = []): void
     {
@@ -41,8 +41,8 @@ final class FakeLogger implements LoggerInterface
     }
 
     /**
-     * @param string                  $message
-     * @param array<array-key, mixed> $context
+     * @param  string  $message
+     * @param  array<array-key, mixed>  $context
      */
     public function alert($message, array $context = []): void
     {
@@ -50,8 +50,8 @@ final class FakeLogger implements LoggerInterface
     }
 
     /**
-     * @param string                  $message
-     * @param array<array-key, mixed> $context
+     * @param  string  $message
+     * @param  array<array-key, mixed>  $context
      */
     public function critical($message, array $context = []): void
     {
@@ -59,8 +59,8 @@ final class FakeLogger implements LoggerInterface
     }
 
     /**
-     * @param string                  $message
-     * @param array<array-key, mixed> $context
+     * @param  string  $message
+     * @param  array<array-key, mixed>  $context
      */
     public function error($message, array $context = []): void
     {
@@ -68,8 +68,8 @@ final class FakeLogger implements LoggerInterface
     }
 
     /**
-     * @param string                  $message
-     * @param array<array-key, mixed> $context
+     * @param  string  $message
+     * @param  array<array-key, mixed>  $context
      */
     public function warning($message, array $context = []): void
     {
@@ -77,8 +77,8 @@ final class FakeLogger implements LoggerInterface
     }
 
     /**
-     * @param string                  $message
-     * @param array<array-key, mixed> $context
+     * @param  string  $message
+     * @param  array<array-key, mixed>  $context
      */
     public function notice($message, array $context = []): void
     {
@@ -86,8 +86,8 @@ final class FakeLogger implements LoggerInterface
     }
 
     /**
-     * @param string                  $message
-     * @param array<array-key, mixed> $context
+     * @param  string  $message
+     * @param  array<array-key, mixed>  $context
      */
     public function info($message, array $context = []): void
     {
@@ -95,8 +95,8 @@ final class FakeLogger implements LoggerInterface
     }
 
     /**
-     * @param string                  $message
-     * @param array<array-key, mixed> $context
+     * @param  string  $message
+     * @param  array<array-key, mixed>  $context
      */
     public function debug($message, array $context = []): void
     {
@@ -104,9 +104,9 @@ final class FakeLogger implements LoggerInterface
     }
 
     /**
-     * @param string                  $level
-     * @param string                  $message
-     * @param array<array-key, mixed> $context
+     * @param  string  $level
+     * @param  string  $message
+     * @param  array<array-key, mixed>  $context
      */
     public function log($level, $message, array $context = []): void
     {
@@ -119,7 +119,7 @@ final class FakeLogger implements LoggerInterface
     }
 
     /**
-     * @param array<array-key, mixed> $context
+     * @param  array<array-key, mixed>  $context
      */
     public function messageWasLogged(string $level, string $message, ?array $context = null): bool
     {
@@ -127,9 +127,9 @@ final class FakeLogger implements LoggerInterface
             return false;
         }
 
-        return !empty(\array_filter($this->logs[$level], static function (array $log) use ($message, $context) {
+        return ! empty(\array_filter($this->logs[$level], static function (array $log) use ($message, $context) {
             return $log['message'] === $message
-                && (null === $context || $log['context'] === $context);
+                && ($context === null || $log['context'] === $context);
         }));
     }
 }

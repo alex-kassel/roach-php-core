@@ -23,40 +23,40 @@ use RoachPHP\ItemPipeline\Processors\FakeProcessor;
  */
 final class FakeProcessorTest extends TestCase
 {
-    public function testPassThroughItemUnchanged(): void
+    public function test_pass_through_item_unchanged(): void
     {
         $item = new Item(['foo' => 'bar']);
-        $processor = new FakeProcessor();
+        $processor = new FakeProcessor;
 
         $item = $processor->processItem($item);
 
         self::assertSame(['foo' => 'bar'], $item->all());
     }
 
-    public function testAssertCalledWithPassesWhenProcessorWasCalledWithCorrectItem(): void
+    public function test_assert_called_with_passes_when_processor_was_called_with_correct_item(): void
     {
         $item = new Item(['foo' => 'bar']);
-        $processor = new FakeProcessor();
+        $processor = new FakeProcessor;
 
         $item = $processor->processItem($item);
 
         $processor->assertCalledWith($item);
     }
 
-    public function testAssertCalledWithFailsWhenProcessorWasNotCalled(): void
+    public function test_assert_called_with_fails_when_processor_was_not_called(): void
     {
         $item = new Item(['foo' => 'bar']);
-        $processor = new FakeProcessor();
+        $processor = new FakeProcessor;
 
         $this->expectException(AssertionFailedError::class);
         $processor->assertCalledWith($item);
     }
 
-    public function testAssertCalledWithFailsWhenProcessorWasNotCalledWithCorrectItem(): void
+    public function test_assert_called_with_fails_when_processor_was_not_called_with_correct_item(): void
     {
         $item = new Item(['::key-1::' => '::value-1::']);
         $otherItem = new Item(['::key-1::' => '::value-2::']);
-        $processor = new FakeProcessor();
+        $processor = new FakeProcessor;
 
         $processor->processItem($item);
 
@@ -64,12 +64,12 @@ final class FakeProcessorTest extends TestCase
         $processor->assertCalledWith($otherItem);
     }
 
-    public function testAssertCalledWithPassesIfWasCalledAtLeastOnceWithCorrectItem(): void
+    public function test_assert_called_with_passes_if_was_called_at_least_once_with_correct_item(): void
     {
         $item1 = new Item(['::key-1::' => '::value-1::']);
         $item2 = new Item(['::key-2::' => '::value-2::']);
         $item3 = new Item(['::key-3::' => '::value-3::']);
-        $processor = new FakeProcessor();
+        $processor = new FakeProcessor;
 
         $processor->processItem($item1);
         $processor->processItem($item2);
@@ -80,10 +80,10 @@ final class FakeProcessorTest extends TestCase
         $processor->assertCalledWith($item3);
     }
 
-    public function testAssertNotCalledWithFailsIfWasCalledWithPayload(): void
+    public function test_assert_not_called_with_fails_if_was_called_with_payload(): void
     {
         $item = new Item(['::key::' => '::value::']);
-        $processor = new FakeProcessor();
+        $processor = new FakeProcessor;
 
         $processor->processItem($item);
 
@@ -91,29 +91,29 @@ final class FakeProcessorTest extends TestCase
         $processor->assertNotCalledWith($item);
     }
 
-    public function testAssertNotCalledWithPassesIfProcessorWasNotCalledAtAll(): void
+    public function test_assert_not_called_with_passes_if_processor_was_not_called_at_all(): void
     {
         $item = new Item(['::key::' => '::value::']);
-        $processor = new FakeProcessor();
+        $processor = new FakeProcessor;
 
         $processor->assertNotCalledWith($item);
     }
 
-    public function testAssertNotCalledWithPassesIfProcessorWasNotCalledWithItem(): void
+    public function test_assert_not_called_with_passes_if_processor_was_not_called_with_item(): void
     {
         $item = new Item(['::key-1::' => '::value-2::']);
         $otherItem = new Item(['::key-2::' => '::value-2::']);
-        $processor = new FakeProcessor();
+        $processor = new FakeProcessor;
 
         $processor->processItem($item);
 
         $processor->assertNotCalledWith($otherItem);
     }
 
-    public function testAssertNotCalled(): void
+    public function test_assert_not_called(): void
     {
         $item = new Item(['::key::' => '::value::']);
-        $processor = new FakeProcessor();
+        $processor = new FakeProcessor;
 
         $processor->assertNotCalled();
         $processor->processItem($item);

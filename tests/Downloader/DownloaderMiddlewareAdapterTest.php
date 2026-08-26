@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace RoachPHP\Tests\Downloader;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RoachPHP\Downloader\DownloaderMiddlewareInterface;
 use RoachPHP\Downloader\Middleware\DownloaderMiddlewareAdapter;
@@ -30,9 +31,10 @@ final class DownloaderMiddlewareAdapterTest extends TestCase
 {
     use InteractsWithRequestsAndResponses;
 
-    public function testDontWrapMiddlewareIfItAlreadyImplementsFullInterface(): void
+    public function test_dont_wrap_middleware_if_it_already_implements_full_interface(): void
     {
-        $middleware = new class() implements DownloaderMiddlewareInterface {
+        $middleware = new class implements DownloaderMiddlewareInterface
+        {
             use Configurable;
 
             public function handleRequest(Request $request): Request
@@ -52,12 +54,11 @@ final class DownloaderMiddlewareAdapterTest extends TestCase
         self::assertSame($middleware, $class);
     }
 
-    /**
-     * @dataProvider requestMiddlewareProvider
-     */
-    public function testRequestMiddlewareImplementation(callable $testCase): void
+    #[DataProvider('requestMiddlewareProvider')]
+    public function test_request_middleware_implementation(callable $testCase): void
     {
-        $middleware = new class() implements RequestMiddlewareInterface {
+        $middleware = new class implements RequestMiddlewareInterface
+        {
             use Configurable;
 
             public function handleRequest(Request $request): Request
@@ -89,12 +90,11 @@ final class DownloaderMiddlewareAdapterTest extends TestCase
         }];
     }
 
-    /**
-     * @dataProvider responseMiddlewareProvider
-     */
-    public function testResponseMiddlewareImplementation(callable $testCase): void
+    #[DataProvider('responseMiddlewareProvider')]
+    public function test_response_middleware_implementation(callable $testCase): void
     {
-        $middleware = new class() implements ResponseMiddlewareInterface {
+        $middleware = new class implements ResponseMiddlewareInterface
+        {
             use Configurable;
 
             public function handleResponse(Response $response): Response

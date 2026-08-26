@@ -27,9 +27,9 @@ final class UserAgentMiddlewareTest extends TestCase
 {
     use InteractsWithRequestsAndResponses;
 
-    public function testSetDefaultUserAgentOnRequest(): void
+    public function test_set_default_user_agent_on_request(): void
     {
-        $middleware = new UserAgentMiddleware();
+        $middleware = new UserAgentMiddleware;
         $middleware->configure([]);
 
         $request = $middleware->handleRequest($this->makeRequest());
@@ -38,9 +38,9 @@ final class UserAgentMiddlewareTest extends TestCase
         self::assertSame('roach-php', $request->getHeader('User-Agent')[0]);
     }
 
-    public function testSetCustomUserAgentOnRequest(): void
+    public function test_set_custom_user_agent_on_request(): void
     {
-        $middleware = new UserAgentMiddleware();
+        $middleware = new UserAgentMiddleware;
         $middleware->configure(['userAgent' => 'custom']);
 
         $request = $middleware->handleRequest($this->makeRequest());

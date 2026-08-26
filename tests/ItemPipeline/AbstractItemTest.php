@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace RoachPHP\Tests\ItemPipeline;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RoachPHP\Tests\Fixtures\TestItem;
 
@@ -21,7 +22,7 @@ use RoachPHP\Tests\Fixtures\TestItem;
  */
 final class AbstractItemTest extends TestCase
 {
-    public function testCanGetPublicProperty(): void
+    public function test_can_get_public_property(): void
     {
         $item = new TestItem(foo: '::value-1::', bar: '::value-2::');
 
@@ -29,7 +30,7 @@ final class AbstractItemTest extends TestCase
         self::assertSame('::value-2::', $item->get('bar'));
     }
 
-    public function testReturnDefaultValueIfNoPublicPropertyExistsForName(): void
+    public function test_return_default_value_if_no_public_property_exists_for_name(): void
     {
         $item = new TestItem(foo: '::value-1::', bar: '::value-2::');
 
@@ -38,14 +39,14 @@ final class AbstractItemTest extends TestCase
         self::assertSame('::default::', $item->get('lorem-ipsum', '::default::'));
     }
 
-    public function testReturnDefaultValueIfPropertyIsNull(): void
+    public function test_return_default_value_if_property_is_null(): void
     {
         $item = new TestItem(foo: '::value::', bar: null);
 
         self::assertSame('::default::', $item->get('bar', '::default::'));
     }
 
-    public function testCanGetAllPublicProperties(): void
+    public function test_can_get_all_public_properties(): void
     {
         $item = new TestItem(foo: '::value-1::', bar: '::value-2::');
 
@@ -55,7 +56,7 @@ final class AbstractItemTest extends TestCase
         ], $item->all());
     }
 
-    public function testCanSetPublicProperty(): void
+    public function test_can_set_public_property(): void
     {
         $item = new TestItem(foo: '::old-value-1::', bar: '::old-value-2::');
 
@@ -66,10 +67,8 @@ final class AbstractItemTest extends TestCase
         self::assertSame('::new-value-2::', $item->bar);
     }
 
-    /**
-     * @dataProvider inaccessiblePropertiesProvider
-     */
-    public function testThrowsExceptionWhenTryingToSetNonPublicOrNonExistentProperty(string $property): void
+    #[DataProvider('inaccessiblePropertiesProvider')]
+    public function test_throws_exception_when_trying_to_set_non_public_or_non_existent_property(string $property): void
     {
         $item = new TestItem(foo: '::old-value-1::', bar: '::old-value-2::');
 
@@ -78,20 +77,16 @@ final class AbstractItemTest extends TestCase
         $item->set($property, '::new-value::');
     }
 
-    /**
-     * @dataProvider hasPropertyProvider
-     */
-    public function testHasProperty(string $property, bool $expected): void
+    #[DataProvider('hasPropertyProvider')]
+    public function test_has_property(string $property, bool $expected): void
     {
         $item = new TestItem(foo: '::value-1::', bar: '::value-2::');
 
         self::assertSame($expected, $item->has($property));
     }
 
-    /**
-     * @dataProvider hasPropertyProvider
-     */
-    public function testOffsetExists(string $property, bool $expected): void
+    #[DataProvider('hasPropertyProvider')]
+    public function test_offset_exists(string $property, bool $expected): void
     {
         $item = new TestItem(foo: '::value-1::', bar: '::value-2::');
 
@@ -109,7 +104,7 @@ final class AbstractItemTest extends TestCase
         ];
     }
 
-    public function testOffsetGetCanRetrievePublicProperties(): void
+    public function test_offset_get_can_retrieve_public_properties(): void
     {
         $item = new TestItem(foo: '::value-1::', bar: '::value-2::');
 
@@ -117,7 +112,7 @@ final class AbstractItemTest extends TestCase
         self::assertSame('::value-2::', $item['bar']);
     }
 
-    public function testOffsetGetReturnsNullForNonAccessibleProperty(): void
+    public function test_offset_get_returns_null_for_non_accessible_property(): void
     {
         $item = new TestItem(foo: '::value-1::', bar: '::value-2::');
 
@@ -125,14 +120,14 @@ final class AbstractItemTest extends TestCase
         self::assertNull($item['qux']);
     }
 
-    public function testOffsetGetReturnsNullForNonExistentProperty(): void
+    public function test_offset_get_returns_null_for_non_existent_property(): void
     {
         $item = new TestItem(foo: '::value-1::', bar: '::value-2::');
 
         self::assertNull($item['does-not-exist']);
     }
 
-    public function testOffsetGetThrowsExceptionIfOffsetIsNotAString(): void
+    public function test_offset_get_throws_exception_if_offset_is_not_a_string(): void
     {
         $item = new TestItem(foo: '::value-1::', bar: '::value-2::');
 
@@ -142,7 +137,7 @@ final class AbstractItemTest extends TestCase
         $item[0];
     }
 
-    public function testOffsetSetCanSetPublicProperties(): void
+    public function test_offset_set_can_set_public_properties(): void
     {
         $item = new TestItem(foo: '::old-value-1::', bar: '::old-value-2::');
 
@@ -153,10 +148,8 @@ final class AbstractItemTest extends TestCase
         self::assertSame('::new-value-2::', $item->bar);
     }
 
-    /**
-     * @dataProvider inaccessiblePropertiesProvider
-     */
-    public function testOffsetSetThrowsExceptionWhenSettingInaccessibleOrNonExistentProperty(string $property): void
+    #[DataProvider('inaccessiblePropertiesProvider')]
+    public function test_offset_set_throws_exception_when_setting_inaccessible_or_non_existent_property(string $property): void
     {
         $item = new TestItem(foo: '::value-1::', bar: '::value-2::');
 
@@ -175,7 +168,7 @@ final class AbstractItemTest extends TestCase
         ];
     }
 
-    public function testOffsetSetThrowsExceptionIfOffsetIsNotAString(): void
+    public function test_offset_set_throws_exception_if_offset_is_not_a_string(): void
     {
         $item = new TestItem(foo: '::value-1::', bar: '::value-2::');
 
@@ -185,7 +178,7 @@ final class AbstractItemTest extends TestCase
         $item[0] = '::value::';
     }
 
-    public function testDoesNotSupportUnsettingProperties(): void
+    public function test_does_not_support_unsetting_properties(): void
     {
         $item = new TestItem(foo: '::value-1::', bar: '::value-2::');
 

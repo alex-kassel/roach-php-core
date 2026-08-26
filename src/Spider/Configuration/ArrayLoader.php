@@ -37,7 +37,7 @@ final class ArrayLoader implements ConfigurationLoaderStrategy
 
     public function __construct(array $configuration)
     {
-        $resolver = new OptionsResolver();
+        $resolver = new OptionsResolver;
 
         $resolver->setDefaults([
             'startUrls' => [],

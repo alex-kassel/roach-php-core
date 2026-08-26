@@ -22,8 +22,7 @@ final class Runner implements RunnerInterface
     public function __construct(
         private ContainerInterface $container,
         private EngineInterface $engine,
-    ) {
-    }
+    ) {}
 
     public function startSpider(string $spiderClass, ?Overrides $overrides = null, array $context = []): void
     {

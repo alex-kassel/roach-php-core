@@ -20,7 +20,5 @@ final class ItemScraped extends Event
 {
     public const NAME = 'item.scraped';
 
-    public function __construct(public ItemInterface $item)
-    {
-    }
+    public function __construct(public ItemInterface $item) {}
 }

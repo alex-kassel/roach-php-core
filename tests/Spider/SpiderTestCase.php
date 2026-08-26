@@ -24,9 +24,10 @@ use RoachPHP\Tests\IntegrationTestCase;
  */
 final class SpiderTestCase extends IntegrationTestCase
 {
-    public function testCreateInitialRequestFromStartUrlsByDefault(): void
+    public function test_create_initial_request_from_start_urls_by_default(): void
     {
-        $spider = new class() extends BasicSpider {
+        $spider = new class extends BasicSpider
+        {
             public array $startUrls = [
                 'http://localhost:8000/test1',
                 'http://localhost:8000/test2',
@@ -47,9 +48,10 @@ final class SpiderTestCase extends IntegrationTestCase
         $this->assertRouteWasCrawledTimes('/test2', 1);
     }
 
-    public function testOverrideInitialRequests(): void
+    public function test_override_initial_requests(): void
     {
-        $spider = new class() extends BasicSpider {
+        $spider = new class extends BasicSpider
+        {
             // Don't want logging in this test
             public array $extensions = [];
 
@@ -69,9 +71,10 @@ final class SpiderTestCase extends IntegrationTestCase
         $this->assertRouteWasCrawledTimes('/test1', 1);
     }
 
-    public function testCanAccessRunContextFromWithinSpider(): void
+    public function test_can_access_run_context_from_within_spider(): void
     {
-        $spider = new class() extends BasicSpider {
+        $spider = new class extends BasicSpider
+        {
             public array $extensions = [];
 
             public function parse(Response $response): \Generator

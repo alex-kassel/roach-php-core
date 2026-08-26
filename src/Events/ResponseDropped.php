@@ -20,7 +20,5 @@ final class ResponseDropped extends Event
 {
     public const NAME = 'response.dropped';
 
-    public function __construct(public Response $response)
-    {
-    }
+    public function __construct(public Response $response) {}
 }

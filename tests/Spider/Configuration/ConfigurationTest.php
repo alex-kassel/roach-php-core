@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace RoachPHP\Tests\Spider\Configuration;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RoachPHP\Spider\Configuration\Configuration;
 use RoachPHP\Spider\Configuration\Overrides;
@@ -29,11 +30,10 @@ use RoachPHP\Tests\Fixtures\ResponseSpiderMiddleware;
 final class ConfigurationTest extends TestCase
 {
     /**
-     * @dataProvider overridesProvider
-     *
-     * @param array<string, mixed> $overrides
-     */
-    public function testMergeWithOverrides(array $overrides, callable $verifyConfig): void
+     * @param  array<string, mixed>  $overrides
+     **/
+    #[DataProvider('overridesProvider')]
+    public function test_merge_with_overrides(array $overrides, callable $verifyConfig): void
     {
         $originalConfig = $this->makeConfiguration([
             'startUrls' => ['::original-url::'],
@@ -116,7 +116,7 @@ final class ConfigurationTest extends TestCase
     }
 
     /**
-     * @param array<string, mixed> $values
+     * @param  array<string, mixed>  $values
      */
     private function makeConfiguration(array $values): Configuration
     {

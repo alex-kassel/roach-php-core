@@ -31,8 +31,8 @@ final class FakeClient implements ClientInterface
         foreach ($requests as $request) {
             $this->sentRequestUrls[] = $request->getUri();
 
-            if (null !== $onFulfilled) {
-                $response = new Response(new GuzzleResponse(), $request);
+            if ($onFulfilled !== null) {
+                $response = new Response(new GuzzleResponse, $request);
 
                 $onFulfilled($response);
             }

@@ -35,7 +35,7 @@ final class FetchCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $client = new Client();
+        $client = new Client;
 
         /**
          * @psalm-suppress MixedAssignement

@@ -30,12 +30,11 @@ final class ProxyMiddleware implements RequestMiddlewareInterface
     public function __construct(
         private readonly ContainerInterface $container,
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     public function handleRequest(Request $request): Request
     {
-        if (null === $this->proxy) {
+        if ($this->proxy === null) {
             $this->logger->warning(
                 '[ProxyMiddleware] No proxy configured for middleware',
             );
@@ -70,7 +69,7 @@ final class ProxyMiddleware implements RequestMiddlewareInterface
         /** @var null|class-string<ConfigurationLoaderInterface> $loaderClass */
         $loaderClass = $this->option('loader');
 
-        if (null !== $loaderClass) {
+        if ($loaderClass !== null) {
             /** @var ConfigurationLoaderInterface $loader */
             $loader = $this->container->get($loaderClass);
         } else {

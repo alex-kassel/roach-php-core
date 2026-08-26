@@ -20,7 +20,5 @@ final class ItemDropped extends Event
 {
     public const NAME = 'item.dropped';
 
-    public function __construct(public ItemInterface $item)
-    {
-    }
+    public function __construct(public ItemInterface $item) {}
 }

@@ -24,11 +24,11 @@ use RoachPHP\Spider\SpiderMiddlewareInterface;
 final class Overrides
 {
     /**
-     * @param null|list<string>                                      $startUrls
-     * @param null|list<class-string<DownloaderMiddlewareInterface>> $downloaderMiddleware
-     * @param null|list<class-string<SpiderMiddlewareInterface>>     $spiderMiddleware
-     * @param null|list<class-string<ItemProcessorInterface>>        $itemProcessors
-     * @param null|list<class-string<ExtensionInterface>>            $extensions
+     * @param  null|list<string>  $startUrls
+     * @param  null|list<class-string<DownloaderMiddlewareInterface>>  $downloaderMiddleware
+     * @param  null|list<class-string<SpiderMiddlewareInterface>>  $spiderMiddleware
+     * @param  null|list<class-string<ItemProcessorInterface>>  $itemProcessors
+     * @param  null|list<class-string<ExtensionInterface>>  $extensions
      */
     public function __construct(
         public ?array $startUrls = null,
@@ -38,8 +38,7 @@ final class Overrides
         public ?array $extensions = null,
         public ?int $concurrency = null,
         public ?int $requestDelay = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @psalm-suppress MoreSpecificReturnType, LessSpecificReturnStatement
@@ -64,6 +63,6 @@ final class Overrides
             'extensions' => $this->extensions,
             'concurrency' => $this->concurrency,
             'requestDelay' => $this->requestDelay,
-        ], static fn ($value) => null !== $value);
+        ], static fn ($value) => $value !== null);
     }
 }

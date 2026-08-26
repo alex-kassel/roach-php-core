@@ -17,6 +17,4 @@ use RoachPHP\Spider\Middleware\ItemMiddlewareInterface;
 use RoachPHP\Spider\Middleware\RequestMiddlewareInterface;
 use RoachPHP\Spider\Middleware\ResponseMiddlewareInterface;
 
-interface SpiderMiddlewareInterface extends ItemMiddlewareInterface, RequestMiddlewareInterface, ResponseMiddlewareInterface
-{
-}
+interface SpiderMiddlewareInterface extends ItemMiddlewareInterface, RequestMiddlewareInterface, ResponseMiddlewareInterface {}

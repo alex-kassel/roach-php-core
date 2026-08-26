@@ -27,9 +27,9 @@ final class FakeMiddlewareTest extends TestCase
 {
     use InteractsWithRequestsAndResponses;
 
-    public function testReturnRequestUnchangedByDefault(): void
+    public function test_return_request_unchanged_by_default(): void
     {
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
         $request = $this->makeRequest();
 
         $result = $middleware->handleRequest($request);
@@ -37,7 +37,7 @@ final class FakeMiddlewareTest extends TestCase
         self::assertSame($request, $result);
     }
 
-    public function testCallsRequestHandlerCallbackIfProvided(): void
+    public function test_calls_request_handler_callback_if_provided(): void
     {
         $middleware = new FakeMiddleware(static fn (Request $request) => $request->drop('::reason::'));
         $request = $this->makeRequest();
@@ -47,9 +47,9 @@ final class FakeMiddlewareTest extends TestCase
         self::assertTrue($result->wasDropped());
     }
 
-    public function testAssertRequestHandledPassesWhenMiddlewareWasCalledWithCorrectRequest(): void
+    public function test_assert_request_handled_passes_when_middleware_was_called_with_correct_request(): void
     {
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
         $request = $this->makeRequest();
 
         $middleware->handleRequest($request);
@@ -57,18 +57,18 @@ final class FakeMiddlewareTest extends TestCase
         $middleware->assertRequestHandled($request);
     }
 
-    public function testAssertRequestHandledFailsIfMiddlewareWasNotCalledAtAll(): void
+    public function test_assert_request_handled_fails_if_middleware_was_not_called_at_all(): void
     {
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
         $request = $this->makeRequest();
 
         $this->expectException(AssertionFailedError::class);
         $middleware->assertRequestHandled($request);
     }
 
-    public function testAssertRequestHandledFailsIfMiddlewareWasNotCalledWithRequest(): void
+    public function test_assert_request_handled_fails_if_middleware_was_not_called_with_request(): void
     {
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
         $request = $this->makeRequest();
         $otherRequest = $this->makeRequest();
 
@@ -78,9 +78,9 @@ final class FakeMiddlewareTest extends TestCase
         $middleware->assertRequestHandled($request);
     }
 
-    public function testAssertRequestNotHandled(): void
+    public function test_assert_request_not_handled(): void
     {
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
         $request = $this->makeRequest();
         $otherRequest = $this->makeRequest();
 
@@ -94,9 +94,9 @@ final class FakeMiddlewareTest extends TestCase
         $middleware->assertRequestNotHandled($request);
     }
 
-    public function testAssertNoRequestsHandled(): void
+    public function test_assert_no_requests_handled(): void
     {
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
         $request = $this->makeRequest();
 
         $middleware->assertNoRequestsHandled();
@@ -106,9 +106,9 @@ final class FakeMiddlewareTest extends TestCase
         $middleware->assertNoRequestsHandled();
     }
 
-    public function testReturnResponseUnchangedByDefault(): void
+    public function test_return_response_unchanged_by_default(): void
     {
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
         $response = $this->makeResponse();
 
         $result = $middleware->handleResponse($response);
@@ -116,7 +116,7 @@ final class FakeMiddlewareTest extends TestCase
         self::assertSame($response, $result);
     }
 
-    public function testCallsResponseHandlerCallbackIfProvided(): void
+    public function test_calls_response_handler_callback_if_provided(): void
     {
         $middleware = new FakeMiddleware(null, static fn (Response $response) => $response->drop('::reason::'));
         $response = $this->makeResponse();
@@ -126,9 +126,9 @@ final class FakeMiddlewareTest extends TestCase
         self::assertTrue($result->wasDropped());
     }
 
-    public function testAssertResponseHandledPassesWhenMiddlewareWasCalledWithCorrectRequest(): void
+    public function test_assert_response_handled_passes_when_middleware_was_called_with_correct_request(): void
     {
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
         $response = $this->makeResponse();
 
         $middleware->handleResponse($response);
@@ -136,18 +136,18 @@ final class FakeMiddlewareTest extends TestCase
         $middleware->assertResponseHandled($response);
     }
 
-    public function testAssertResponseHandledFailsIfMiddlewareWasNotCalledAtAll(): void
+    public function test_assert_response_handled_fails_if_middleware_was_not_called_at_all(): void
     {
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
         $response = $this->makeResponse();
 
         $this->expectException(AssertionFailedError::class);
         $middleware->assertResponseHandled($response);
     }
 
-    public function testAssertResponseHandledFailsIfMiddlewareWasNotCalledWithRequest(): void
+    public function test_assert_response_handled_fails_if_middleware_was_not_called_with_request(): void
     {
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
         $response = $this->makeResponse();
         $otherResponse = $this->makeResponse();
 
@@ -157,9 +157,9 @@ final class FakeMiddlewareTest extends TestCase
         $middleware->assertResponseHandled($response);
     }
 
-    public function testAssertResponseNotHandled(): void
+    public function test_assert_response_not_handled(): void
     {
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
         $response = $this->makeResponse();
         $otherResponse = $this->makeResponse();
 
@@ -173,9 +173,9 @@ final class FakeMiddlewareTest extends TestCase
         $middleware->assertResponseNotHandled($response);
     }
 
-    public function testAssertNoResponseHandled(): void
+    public function test_assert_no_response_handled(): void
     {
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
         $response = $this->makeResponse();
 
         $middleware->assertNoResponseHandled();

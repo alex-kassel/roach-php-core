@@ -23,7 +23,7 @@ use RoachPHP\Tests\Fixtures\TestItem2;
  */
 final class CustomItemProcessorTest extends TestCase
 {
-    public function testHandlesItemsDefinedByTheChildClass(): void
+    public function test_handles_items_defined_by_the_child_class(): void
     {
         $processor = new TestCustomItemProcessor([TestItem::class]);
         self::assertTrue(
@@ -32,15 +32,15 @@ final class CustomItemProcessorTest extends TestCase
 
         $processor = new TestCustomItemProcessor([TestItem2::class]);
         self::assertTrue(
-            $processor->shouldHandle(new TestItem2()),
+            $processor->shouldHandle(new TestItem2),
         );
     }
 
-    public function testDoesNotHandleItemsNotDefinedInTheChildClass(): void
+    public function test_does_not_handle_items_not_defined_in_the_child_class(): void
     {
         $processor = new TestCustomItemProcessor([TestItem::class]);
         self::assertFalse(
-            $processor->shouldHandle(new TestItem2()),
+            $processor->shouldHandle(new TestItem2),
         );
 
         $processor = new TestCustomItemProcessor([TestItem2::class]);

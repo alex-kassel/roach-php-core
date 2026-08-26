@@ -42,12 +42,12 @@ final class DownloaderTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->client = new FakeClient();
-        $this->dispatcher = new FakeDispatcher();
+        $this->client = new FakeClient;
+        $this->dispatcher = new FakeDispatcher;
         $this->downloader = new Downloader($this->client, $this->dispatcher);
     }
 
-    public function testSendRequests(): void
+    public function test_send_requests(): void
     {
         $requestA = $this->makeRequest('::url-a::');
         $requestB = $this->makeRequest('::url-a::');
@@ -60,12 +60,12 @@ final class DownloaderTest extends TestCase
         $this->client->assertRequestWasSent($requestB);
     }
 
-    public function testPassRequestsThroughRequestHandlersInOrder(): void
+    public function test_pass_requests_through_request_handlers_in_order(): void
     {
         $initialRequest = $this->makeRequest();
         $middlewareARequest = $this->makeRequest();
         $middlewareA = new FakeMiddleware(static fn () => $middlewareARequest);
-        $middlewareB = new FakeMiddleware();
+        $middlewareB = new FakeMiddleware;
 
         $this->downloader
             ->withMiddleware($middlewareA, $middlewareB)
@@ -75,11 +75,11 @@ final class DownloaderTest extends TestCase
         $middlewareB->assertRequestHandled($middlewareARequest);
     }
 
-    public function testDoesNotPassOnRequestIfDroppedByMiddleware(): void
+    public function test_does_not_pass_on_request_if_dropped_by_middleware(): void
     {
         $initialRequest = $this->makeRequest();
         $dropMiddleware = new FakeMiddleware(static fn (Request $request) => $request->drop('::reason::'));
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
 
         $this->downloader
             ->withMiddleware($dropMiddleware, $middleware)
@@ -89,7 +89,7 @@ final class DownloaderTest extends TestCase
         $middleware->assertNoRequestsHandled();
     }
 
-    public function testDoesNotSendRequestIfDroppedByMiddleware(): void
+    public function test_does_not_send_request_if_dropped_by_middleware(): void
     {
         $request = $this->makeRequest();
         $dropMiddleware = new FakeMiddleware(static fn (Request $request) => $request->drop('::reason::'));
@@ -102,13 +102,13 @@ final class DownloaderTest extends TestCase
         $this->client->assertRequestWasNotSent($request);
     }
 
-    public function testSendResponsesThroughMiddlewareInOrder(): void
+    public function test_send_responses_through_middleware_in_order(): void
     {
         $middlewareAResponse = $this->makeResponse();
         $middlewareBResponse = $this->makeResponse();
         $middlewareA = new FakeMiddleware(null, static fn () => $middlewareAResponse);
         $middlewareB = new FakeMiddleware(null, static fn () => $middlewareBResponse);
-        $middlewareC = new FakeMiddleware();
+        $middlewareC = new FakeMiddleware;
         $this->downloader->withMiddleware($middlewareA, $middlewareB, $middlewareC);
 
         $this->downloader->prepare($this->makeRequest());
@@ -118,10 +118,10 @@ final class DownloaderTest extends TestCase
         $middlewareC->assertResponseHandled($middlewareBResponse);
     }
 
-    public function testDontPassOnResponseIfDroppedByMiddleware(): void
+    public function test_dont_pass_on_response_if_dropped_by_middleware(): void
     {
         $dropMiddleware = new FakeMiddleware(null, static fn (Response $response) => $response->drop('::reason::'));
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
         $this->downloader->withMiddleware($dropMiddleware, $middleware);
 
         $this->downloader->prepare($this->makeRequest());
@@ -130,7 +130,7 @@ final class DownloaderTest extends TestCase
         $middleware->assertNoResponseHandled();
     }
 
-    public function testCallResponseCallbackForEachResponse(): void
+    public function test_call_response_callback_for_each_response(): void
     {
         $requests = [
             $this->makeRequest('::url-a::')->withMeta('index', 0),
@@ -146,7 +146,7 @@ final class DownloaderTest extends TestCase
         self::assertEmpty($requests);
     }
 
-    public function testDontCallResponseCallbackIfResponseWasDropped(): void
+    public function test_dont_call_response_callback_if_response_was_dropped(): void
     {
         $called = false;
         $dropMiddleware = new FakeMiddleware(null, static fn (Response $response) => $response->drop('::reason::'));
@@ -160,7 +160,7 @@ final class DownloaderTest extends TestCase
         self::assertFalse($called);
     }
 
-    public function testDispatchesAnEventIfRequestWasDropped(): void
+    public function test_dispatches_an_event_if_request_was_dropped(): void
     {
         $request = $this->makeRequest();
         $dropMiddleware = new FakeMiddleware(static fn (Request $request) => $request->drop('::reason::'));
@@ -174,14 +174,14 @@ final class DownloaderTest extends TestCase
         );
     }
 
-    public function testDoesNotDispatchEventIfRequestWasNotDropped(): void
+    public function test_does_not_dispatch_event_if_request_was_not_dropped(): void
     {
         $this->downloader->prepare($this->makeRequest());
 
         $this->dispatcher->assertNotDispatched(RequestDropped::NAME);
     }
 
-    public function testDispatchesAnEventBeforeRequestIsScheduled(): void
+    public function test_dispatches_an_event_before_request_is_scheduled(): void
     {
         $request = $this->makeRequest();
         $this->downloader->prepare($request);
@@ -192,7 +192,7 @@ final class DownloaderTest extends TestCase
         );
     }
 
-    public function testDoesNotScheduleEventIfDroppedByEventListener(): void
+    public function test_does_not_schedule_event_if_dropped_by_event_listener(): void
     {
         $this->dispatcher->listen(RequestSending::NAME, static function (RequestSending $event): void {
             $event->request = $event->request->drop('::reason::');
@@ -205,7 +205,7 @@ final class DownloaderTest extends TestCase
         $this->client->assertRequestWasNotSent($request);
     }
 
-    public function testDispatchesAnEventIfRequestWasDroppedByListener(): void
+    public function test_dispatches_an_event_if_request_was_dropped_by_listener(): void
     {
         $this->dispatcher->listen(RequestSending::NAME, static function (RequestSending $event): void {
             $event->request = $event->request->drop('::reason::');
@@ -220,7 +220,7 @@ final class DownloaderTest extends TestCase
         );
     }
 
-    public function testDispatchEventWhenResponseWasReceived(): void
+    public function test_dispatch_event_when_response_was_received(): void
     {
         $request = $this->makeRequest();
 
@@ -234,7 +234,7 @@ final class DownloaderTest extends TestCase
         );
     }
 
-    public function testDoesNotDispatchEventIfResponseWasNotDropped(): void
+    public function test_does_not_dispatch_event_if_response_was_not_dropped(): void
     {
         $this->downloader->prepare($this->makeRequest());
         $this->downloader->flush();
@@ -242,7 +242,7 @@ final class DownloaderTest extends TestCase
         $this->dispatcher->assertNotDispatched(ResponseDropped::NAME);
     }
 
-    public function testDispatchesAnEventIfResponseWasDropped(): void
+    public function test_dispatches_an_event_if_response_was_dropped(): void
     {
         $request = $this->makeRequest();
         $dropMiddleware = new FakeMiddleware(null, static fn (Response $response) => $response->drop('::reason::'));
@@ -257,13 +257,13 @@ final class DownloaderTest extends TestCase
         );
     }
 
-    public function testDontPassResponseToMiddlewareIfDroppedByExtension(): void
+    public function test_dont_pass_response_to_middleware_if_dropped_by_extension(): void
     {
         $request = $this->makeRequest();
         $this->dispatcher->listen(ResponseReceiving::NAME, static function (ResponseReceiving $event): void {
             $event->response = $event->response->drop('::reason::');
         });
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
         $this->downloader->withMiddleware($middleware);
 
         $this->downloader->prepare($request);
@@ -272,7 +272,7 @@ final class DownloaderTest extends TestCase
         $middleware->assertNoResponseHandled();
     }
 
-    public function testFireEventIfReceivedResponseWasDroppedByExtension(): void
+    public function test_fire_event_if_received_response_was_dropped_by_extension(): void
     {
         $request = $this->makeRequest();
         $this->dispatcher->listen(ResponseReceiving::NAME, static function (ResponseReceiving $event): void {
@@ -288,7 +288,7 @@ final class DownloaderTest extends TestCase
         );
     }
 
-    public function testDontCallParseCallbackIfRequestWasDroppedByExtension(): void
+    public function test_dont_call_parse_callback_if_request_was_dropped_by_extension(): void
     {
         $called = false;
         $request = $this->makeRequest();
@@ -304,7 +304,7 @@ final class DownloaderTest extends TestCase
         self::assertFalse($called);
     }
 
-    public function testDispatchEventWhenResponseWasProcessedByMiddleware(): void
+    public function test_dispatch_event_when_response_was_processed_by_middleware(): void
     {
         $request = $this->makeRequest();
         $middleware = new FakeMiddleware(
@@ -325,7 +325,7 @@ final class DownloaderTest extends TestCase
         );
     }
 
-    public function testFireEventIfProcessedResponseWasDroppedByExtension(): void
+    public function test_fire_event_if_processed_response_was_dropped_by_extension(): void
     {
         $request = $this->makeRequest();
         $this->dispatcher->listen(ResponseReceived::NAME, static function (ResponseReceived $event): void {
@@ -341,7 +341,7 @@ final class DownloaderTest extends TestCase
         );
     }
 
-    public function testDontCallParseCallbackIfProcessedResponseWasDroppedByExtension(): void
+    public function test_dont_call_parse_callback_if_processed_response_was_dropped_by_extension(): void
     {
         $called = false;
         $request = $this->makeRequest();
@@ -357,7 +357,7 @@ final class DownloaderTest extends TestCase
         self::assertFalse($called);
     }
 
-    public function testDontSendRequestIfHasResponse(): void
+    public function test_dont_send_request_if_has_response(): void
     {
         $request = $this->makeRequest();
         $request = $request->withResponse($this->makeResponse($request));
@@ -368,7 +368,7 @@ final class DownloaderTest extends TestCase
         $this->client->assertRequestWasNotSent($request);
     }
 
-    public function testResponseDispatchedWhenNotSent(): void
+    public function test_response_dispatched_when_not_sent(): void
     {
         $request = $this->makeRequest();
         $request = $request->withResponse($this->makeResponse($request));
@@ -385,12 +385,12 @@ final class DownloaderTest extends TestCase
         $this->client->assertRequestWasNotSent($request);
     }
 
-    public function testPassRequestsThroughRequestHandlersWhenHasResponse(): void
+    public function test_pass_requests_through_request_handlers_when_has_response(): void
     {
         $request = $this->makeRequest();
         $request = $request->withResponse($this->makeResponse($request));
 
-        $middleware = new FakeMiddleware();
+        $middleware = new FakeMiddleware;
 
         $this->downloader
             ->withMiddleware($middleware)

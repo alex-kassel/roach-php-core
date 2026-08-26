@@ -52,7 +52,7 @@ final class Repl extends Command
             Link::class => 'RoachPHP\Shell\ShellCaster::castLink',
             Response::class => 'RoachPHP\Shell\ShellCaster::castResponse',
         ]);
-        $config->addCommands([new FetchCommand()]);
+        $config->addCommands([new FetchCommand]);
 
         $shell = new Shell($config);
 

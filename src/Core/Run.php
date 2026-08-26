@@ -25,11 +25,11 @@ use RoachPHP\Spider\SpiderMiddlewareInterface;
 final class Run
 {
     /**
-     * @param array<array-key, Request>                       $startRequests
-     * @param array<array-key, DownloaderMiddlewareInterface> $downloaderMiddleware
-     * @param array<array-key, ItemProcessorInterface>        $itemProcessors
-     * @param array<array-key, SpiderMiddlewareInterface>     $responseMiddleware
-     * @param array<array-key, ExtensionInterface>            $extensions
+     * @param  array<array-key, Request>  $startRequests
+     * @param  array<array-key, DownloaderMiddlewareInterface>  $downloaderMiddleware
+     * @param  array<array-key, ItemProcessorInterface>  $itemProcessors
+     * @param  array<array-key, SpiderMiddlewareInterface>  $responseMiddleware
+     * @param  array<array-key, ExtensionInterface>  $extensions
      */
     public function __construct(
         public array $startRequests,
@@ -40,6 +40,5 @@ final class Run
         public array $extensions = [],
         public int $concurrency = 25,
         public int $requestDelay = 0,
-    ) {
-    }
+    ) {}
 }

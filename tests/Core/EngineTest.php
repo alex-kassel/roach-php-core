@@ -55,12 +55,12 @@ final class EngineTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $dispatcher = new EventDispatcher();
-        $this->clock = new FakeClock();
+        $dispatcher = new EventDispatcher;
+        $this->clock = new FakeClock;
         $this->scheduler = new ArrayRequestScheduler($this->clock);
         $this->engine = new Engine(
             $this->scheduler,
-            new Downloader(new Client(), $dispatcher),
+            new Downloader(new Client, $dispatcher),
             new ItemPipeline($dispatcher),
             new Processor($dispatcher),
             $dispatcher,
@@ -69,7 +69,7 @@ final class EngineTest extends IntegrationTestCase
         $_SERVER['__parse.called'] = 0;
     }
 
-    public function testCrawlsStartUrls(): void
+    public function test_crawls_start_urls(): void
     {
         $startRequests = [
             $this->makeRequest('http://localhost:8000/test1'),
@@ -83,7 +83,7 @@ final class EngineTest extends IntegrationTestCase
         $this->assertRouteWasCrawledTimes('/test2', 1);
     }
 
-    public function testDoesntCrawlStartUrlsWithExistingRequestsInScheduler(): void
+    public function test_doesnt_crawl_start_urls_with_existing_requests_in_scheduler(): void
     {
         $startRequests = [
             $this->makeRequest('http://localhost:8000/test1'),
@@ -101,7 +101,7 @@ final class EngineTest extends IntegrationTestCase
         $this->assertRouteWasCrawledTimes('/test3', 1);
     }
 
-    public function testCrawlUrlsReturnedFromParseCallback(): void
+    public function test_crawl_urls_returned_from_parse_callback(): void
     {
         $parseFunction = static function (Response $response) {
             foreach ($response->filter('a')->links() as $link) {
@@ -119,11 +119,11 @@ final class EngineTest extends IntegrationTestCase
         $this->assertRouteWasCrawledTimes('/test3', 1);
     }
 
-    public function testCallCorrectParseCallbackForRequest(): void
+    public function test_call_correct_parse_callback_for_request(): void
     {
         $parseCallback = static function () {
             yield ParseResult::request('GET', 'http://localhost:8000/test2', static function () {
-                ++$_SERVER['__parse.called'];
+                $_SERVER['__parse.called']++;
 
                 yield from [];
             });
@@ -138,9 +138,9 @@ final class EngineTest extends IntegrationTestCase
         self::assertEquals(1, $_SERVER['__parse.called']);
     }
 
-    public function testSendItemsThroughItemPipeline(): void
+    public function test_send_items_through_item_pipeline(): void
     {
-        $processor = new FakeProcessor();
+        $processor = new FakeProcessor;
         $startRequests = [
             $this->makeRequest('http://localhost:8000/test1', static function (Response $response) {
                 yield ParseResult::item([
@@ -159,9 +159,9 @@ final class EngineTest extends IntegrationTestCase
         $processor->assertCalledWith(new Item(['title' => 'Such headline, wow']));
     }
 
-    public function testHandleBothRequestAndItemEmittedFromSameParseCallback(): void
+    public function test_handle_both_request_and_item_emitted_from_same_parse_callback(): void
     {
-        $processor = new FakeProcessor();
+        $processor = new FakeProcessor;
         $parseCallback = function () {
             yield ParseResult::item(['title' => '::title::']);
 
@@ -180,9 +180,9 @@ final class EngineTest extends IntegrationTestCase
         $this->assertRouteWasCrawledTimes('/test2', 1);
     }
 
-    public function testRegisterExtensions(): void
+    public function test_register_extensions(): void
     {
-        $logger = new FakeLogger();
+        $logger = new FakeLogger;
         $parseCallback = static function () {
             yield ParseResult::item(['title' => '::title::']);
         };
@@ -190,7 +190,7 @@ final class EngineTest extends IntegrationTestCase
             [$this->makeRequest('http://localhost:8000/test1', $parseCallback)],
             '::namespace::',
             extensions: [
-                new StatsCollectorExtension($logger, new FakeClock()),
+                new StatsCollectorExtension($logger, new FakeClock),
                 new LoggerExtension($logger),
             ],
         );
@@ -214,7 +214,7 @@ final class EngineTest extends IntegrationTestCase
         ]));
     }
 
-    public function testCollectAndReturnScrapedItems(): void
+    public function test_collect_and_return_scraped_items(): void
     {
         $parseCallback = static function () {
             yield ParseResult::item(['::key-1::' => '::value-1::']);
@@ -234,9 +234,10 @@ final class EngineTest extends IntegrationTestCase
         ], $result);
     }
 
-    public function testReplaceDroppedRequestsWithoutWaitingForConfiguredDelay(): void
+    public function test_replace_dropped_requests_without_waiting_for_configured_delay(): void
     {
-        $middleware = new class() implements RequestMiddlewareInterface {
+        $middleware = new class implements RequestMiddlewareInterface
+        {
             use Configurable;
 
             public function handleRequest(Request $request): Request

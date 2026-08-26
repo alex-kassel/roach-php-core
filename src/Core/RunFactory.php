@@ -25,15 +25,13 @@ use RoachPHP\Spider\SpiderMiddlewareInterface;
 
 final class RunFactory
 {
-    public function __construct(private ContainerInterface $container)
-    {
-    }
+    public function __construct(private ContainerInterface $container) {}
 
     public function fromSpider(SpiderInterface $spider, ?Overrides $overrides = null): Run
     {
         $configuration = $spider->loadConfiguration();
 
-        if (null !== $overrides) {
+        if ($overrides !== null) {
             $configuration = $configuration->withOverrides($overrides);
             $spider->withConfiguration($configuration);
         }
@@ -51,8 +49,7 @@ final class RunFactory
     }
 
     /**
-     * @param array<array-key, class-string<DownloaderMiddlewareInterface>> $downloaderMiddleware
-     *
+     * @param  array<array-key, class-string<DownloaderMiddlewareInterface>>  $downloaderMiddleware
      * @return array<array-key, DownloaderMiddlewareInterface>
      */
     private function buildDownloaderMiddleware(array $downloaderMiddleware): array
@@ -63,8 +60,7 @@ final class RunFactory
     }
 
     /**
-     * @param array<array-key, class-string<ItemProcessorInterface>> $processors
-     *
+     * @param  array<array-key, class-string<ItemProcessorInterface>>  $processors
      * @return array<array-key, ItemProcessorInterface>
      */
     private function buildItemPipeline(array $processors): array
@@ -73,8 +69,7 @@ final class RunFactory
     }
 
     /**
-     * @param array<array-key, class-string<SpiderMiddlewareInterface>> $handlers
-     *
+     * @param  array<array-key, class-string<SpiderMiddlewareInterface>>  $handlers
      * @return array<array-key, SpiderMiddlewareInterface>
      */
     private function buildResponseMiddleware(array $handlers): array
@@ -85,8 +80,7 @@ final class RunFactory
     }
 
     /**
-     * @param array<array-key, class-string<ExtensionInterface>> $extensions
-     *
+     * @param  array<array-key, class-string<ExtensionInterface>>  $extensions
      * @return array<array-key, ExtensionInterface>
      */
     private function buildExtensions(array $extensions): array
@@ -105,7 +99,7 @@ final class RunFactory
      */
     private function buildConfigurable(array|string $configurable): mixed
     {
-        if (!\is_array($configurable)) {
+        if (! \is_array($configurable)) {
             $configurable = [$configurable, []];
         }
 
