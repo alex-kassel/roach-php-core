@@ -99,7 +99,7 @@ Roach::startSpider(NewsSpider::class);
 Execute the test suite using PHPUnit:
 
 ```bash
-php artisan test -c packages/alex-kassel/roach-php-core/phpunit.xml
+composer test
 ```
 
 ---
