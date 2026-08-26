@@ -1,7 +1,7 @@
 <h1 align="center">🕷️ Roach PHP Core</h1>
 
 <p align="center">
-  <strong>Complete web scraping and crawling toolkit for PHP applications</strong>
+  <strong>Web scraping and crawling toolkit for PHP. Community fork of roach-php/core with on-demand lazy DOM loading.</strong>
 </p>
 
 <p align="center">

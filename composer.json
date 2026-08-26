@@ -1,6 +1,6 @@
 {
     "name": "alex-kassel/roach-php-core",
-    "description": "A complete web scraping toolkit for PHP",
+    "description": "Community fork of roach-php/core with on-demand lazy DOM loading and native JSON response parsing",
     "type": "library",
     "license": "MIT",
     "keywords": [
