@@ -23,6 +23,22 @@
 
 ---
 
+> [!NOTE]
+> **Community Fork**  
+> This package is a fork of the original [`roach-php/core`](https://github.com/roach-php/core) created by [Kai Sassnowski](https://github.com/kaisassnowski).
+>
+> *As described by the original author:*  
+> *"Roach is a complete web scraping toolkit for PHP. It is heavily inspired (read: a shameless clone) of the popular [Scrapy](https://scrapy.org) package for Python."*
+>
+> **Improvements in this Fork:**
+> - **Lazy `DomCrawler` Initialization:** The HTML DOM Crawler is instantiated on demand instead of eagerly on every HTTP response, reducing memory usage for API/JSON endpoints and large crawl runs.
+> - **Native JSON Response Support:** Added a `$response->json()` helper method for strict decoding of JSON responses.
+> - **Modern Component Compatibility:** Extended constraints supporting Symfony 7/8 components and Guzzle 7/8.
+>
+> 📖 **Original Documentation:** [https://roach-php.dev](https://roach-php.dev)
+
+---
+
 ## Key Features
 
 * **Modular Spider Architecture:** Define elegant spiders with granular lifecycle hooks and declarative pipeline stages.
