@@ -10,9 +10,8 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         php: ['8.2', '8.3', '8.4']
-        dependency-version: [prefer-lowest, prefer-stable]
 
-    name: P${{ matrix.php }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
+    name: P${{ matrix.php }} - ${{ matrix.os }}
 
     steps:
       - name: Checkout code
@@ -31,7 +30,7 @@ jobs:
           extensions: dom, curl
           coverage: none
 
-      - name: "Validate composer.json and composer.lock"
+      - name: "Validate composer.json"
         run: "composer validate --strict"
 
       - name: "Determine composer cache directory"
@@ -42,11 +41,11 @@ jobs:
         uses: "actions/cache@v4"
         with:
           path: "${{ steps.determine-composer-cache-directory.outputs.dir }}"
-          key: "php-${{ matrix.php }}-composer-${{ matrix.dependency-version }}-${{ hashFiles('composer.lock') }}"
-          restore-keys: "php-${{ matrix.php }}-composer-${{ matrix.dependency-version }}-"
+          key: "php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}"
+          restore-keys: "php-${{ matrix.php }}-composer-"
 
       - name: Install dependencies
-        run: composer update --${{ matrix.dependency-version }} --no-interaction --prefer-dist
+        run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress
 
       - name: Run phpstan
         run: composer analyze
@@ -59,3 +58,4 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit
+
