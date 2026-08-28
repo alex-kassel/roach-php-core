@@ -51,7 +51,7 @@
 
 ## Requirements
 
-* **PHP:** 8.2+ (tested on PHP 8.2, 8.3, and 8.4)
+* **PHP:** 8.2+ (tested on PHP 8.2, 8.3, 8.4, and 8.5)
 * **Extensions:** `ext-dom`, `ext-libxml`, `ext-mbstring`
 * **HTTP Client:** Guzzle 7.8+ or 8.0+
 
@@ -112,10 +112,10 @@ Roach::startSpider(NewsSpider::class);
 
 ## Testing
 
-Execute the test suite using PHPUnit:
+From the monorepo root, run the complete package verification pipeline:
 
 ```bash
-composer test
+composer pkg:check alex-kassel/roach-php-core --json
 ```
 
 ---
