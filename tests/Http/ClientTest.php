@@ -115,6 +115,7 @@ final class ClientTest extends TestCase
                 static fn (RequestInterface $request) => new TooManyRedirectsException(
                     '::message::',
                     $request,
+                    new \GuzzleHttp\Psr7\Response(302),
                 ),
             ],
         ];

@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace RoachPHP\Spider\Configuration;
 
 use RoachPHP\Downloader\DownloaderMiddlewareInterface;
+use RoachPHP\Downloader\Middleware\RequestMiddlewareInterface;
+use RoachPHP\Downloader\Middleware\ResponseMiddlewareInterface;
 use RoachPHP\Extensions\ExtensionInterface;
 use RoachPHP\ItemPipeline\Processors\ItemProcessorInterface;
 use RoachPHP\Spider\SpiderMiddlewareInterface;
@@ -25,7 +27,7 @@ final class Overrides
 {
     /**
      * @param  null|list<string>  $startUrls
-     * @param  null|list<class-string<DownloaderMiddlewareInterface>>  $downloaderMiddleware
+     * @param  null|list<class-string<DownloaderMiddlewareInterface|RequestMiddlewareInterface|ResponseMiddlewareInterface>|array{class-string<DownloaderMiddlewareInterface|RequestMiddlewareInterface|ResponseMiddlewareInterface>, array<string, mixed>}>  $downloaderMiddleware
      * @param  null|list<class-string<SpiderMiddlewareInterface>>  $spiderMiddleware
      * @param  null|list<class-string<ItemProcessorInterface>>  $itemProcessors
      * @param  null|list<class-string<ExtensionInterface>>  $extensions
@@ -45,7 +47,7 @@ final class Overrides
      *
      * @return array{
      *     startUrls?: string[],
-     *     downloaderMiddleware?: class-string<DownloaderMiddlewareInterface>[],
+     *     downloaderMiddleware?: list<class-string<DownloaderMiddlewareInterface|RequestMiddlewareInterface|ResponseMiddlewareInterface>|array{class-string<DownloaderMiddlewareInterface|RequestMiddlewareInterface|ResponseMiddlewareInterface>, array<string, mixed>}>,
      *     spiderMiddleware?: class-string<SpiderMiddlewareInterface>[],
      *     itemProcessors?: class-string<ItemProcessorInterface>[],
      *     extensions?: class-string<ExtensionInterface>[],

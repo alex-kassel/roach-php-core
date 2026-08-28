@@ -37,7 +37,7 @@ abstract class BasicSpider extends AbstractSpider
     public array $spiderMiddleware = [];
 
     /**
-     * @var list<class-string<DownloaderMiddlewareInterface|RequestMiddlewareInterface|ResponseMiddlewareInterface>>
+     * @var list<class-string<DownloaderMiddlewareInterface|RequestMiddlewareInterface|ResponseMiddlewareInterface>|array{class-string<DownloaderMiddlewareInterface|RequestMiddlewareInterface|ResponseMiddlewareInterface>, array<string, mixed>}>
      */
     public array $downloaderMiddleware = [
         RequestDeduplicationMiddleware::class,

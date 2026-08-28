@@ -16,6 +16,8 @@ namespace RoachPHP\Core;
 use Psr\Container\ContainerInterface;
 use RoachPHP\Downloader\DownloaderMiddlewareInterface;
 use RoachPHP\Downloader\Middleware\DownloaderMiddlewareAdapter;
+use RoachPHP\Downloader\Middleware\RequestMiddlewareInterface;
+use RoachPHP\Downloader\Middleware\ResponseMiddlewareInterface;
 use RoachPHP\Extensions\ExtensionInterface;
 use RoachPHP\ItemPipeline\Processors\ItemProcessorInterface;
 use RoachPHP\Spider\Configuration\Overrides;
@@ -49,7 +51,7 @@ final class RunFactory
     }
 
     /**
-     * @param  array<array-key, class-string<DownloaderMiddlewareInterface>>  $downloaderMiddleware
+     * @param  array<array-key, class-string<DownloaderMiddlewareInterface|RequestMiddlewareInterface|ResponseMiddlewareInterface>|array{class-string<DownloaderMiddlewareInterface|RequestMiddlewareInterface|ResponseMiddlewareInterface>, array<string, mixed>}>  $downloaderMiddleware
      * @return array<array-key, DownloaderMiddlewareInterface>
      */
     private function buildDownloaderMiddleware(array $downloaderMiddleware): array

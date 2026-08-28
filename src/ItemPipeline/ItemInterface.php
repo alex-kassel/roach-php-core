@@ -16,7 +16,7 @@ namespace RoachPHP\ItemPipeline;
 use RoachPHP\Support\DroppableInterface;
 
 /**
- * @extends \ArrayAccess<string, mixed>
+ * @extends \ArrayAccess<mixed, mixed>
  */
 interface ItemInterface extends \ArrayAccess, DroppableInterface
 {

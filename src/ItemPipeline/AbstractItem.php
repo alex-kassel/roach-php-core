@@ -91,12 +91,11 @@ abstract class AbstractItem implements ItemInterface
 
     final public function offsetExists(mixed $offset): bool
     {
-        return $this->has($offset);
+        return \is_string($offset) && $this->has($offset);
     }
 
     final public function offsetGet(mixed $offset): mixed
     {
-        // @phpstan-ignore function.alreadyNarrowedType
         if (! \is_string($offset)) {
             throw new \InvalidArgumentException('Offset needs to be a string');
         }

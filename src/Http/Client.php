@@ -38,31 +38,50 @@ final class Client implements ClientInterface
     ): void {
         $makeRequests = function () use ($requests): \Generator {
             foreach ($requests as $request) {
-                yield function () use ($request) {
-                    return $this->client
-                        ->sendAsync($request->getPsrRequest(), $request->getOptions())
-                        ->then(
-                            static fn (ResponseInterface $response) => new Response($response, $request),
-                            static function (GuzzleException $reason) use ($request) {
-                                // If we got back a response, we want to return a Response object
-                                // so it can get sent through the middleware stack.
-                                if ($reason instanceof BadResponseException) {
-                                    return new Response($reason->getResponse(), $request);
-                                }
-
-                                // For all other cases, we'll wrap the exception in our own
-                                // exception so it can be handled by any request exception middleware.
-                                throw new RequestException($request, $reason);
-                            },
-                        );
-                };
+                yield fn () => $this->client->sendAsync($request->getPsrRequest(), $request->getOptions());
             }
         };
 
         $pool = new Pool($this->client, $makeRequests(), [
             'concurrency' => 0,
-            'fulfilled' => $onFulfilled,
-            'rejected' => $onRejected,
+            'fulfilled' => static function (ResponseInterface $response, int|string $index) use ($requests, $onFulfilled): void {
+                if ($onFulfilled === null || ! is_int($index) || ! isset($requests[$index])) {
+                    return;
+                }
+
+                $onFulfilled(new Response($response, $requests[$index]));
+            },
+            'rejected' => static function (mixed $reason, int|string $index) use ($requests, $onFulfilled, $onRejected): void {
+                if (! is_int($index) || ! isset($requests[$index])) {
+                    if ($reason instanceof \Throwable) {
+                        throw $reason;
+                    }
+
+                    throw new \RuntimeException('Request rejected with a non-throwable reason.');
+                }
+
+                $request = $requests[$index];
+
+                if ($reason instanceof BadResponseException) {
+                    if ($onFulfilled !== null) {
+                        $onFulfilled(new Response($reason->getResponse(), $request));
+                    }
+
+                    return;
+                }
+
+                if (! $reason instanceof GuzzleException) {
+                    if ($reason instanceof \Throwable) {
+                        throw $reason;
+                    }
+
+                    throw new \RuntimeException('Request rejected with a non-throwable reason.');
+                }
+
+                if ($onRejected !== null) {
+                    $onRejected(new RequestException($request, $reason));
+                }
+            },
         ]);
 
         $pool->promise()->wait();

@@ -45,23 +45,33 @@ final class Item implements ItemInterface
 
     public function offsetExists(mixed $offset): bool
     {
-        return isset($this->data[$offset]);
+        return (\is_int($offset) || \is_string($offset)) && isset($this->data[$offset]);
     }
 
     public function offsetGet(mixed $offset): mixed
     {
-        /** @psalm-suppress MixedReturnStatement */
-        return $this->data[$offset];
+        if (! \is_int($offset) && ! \is_string($offset)) {
+            throw new \InvalidArgumentException('Offset needs to be an integer or string');
+        }
+
+        return $this->data[$offset] ?? null;
     }
 
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        /** @psalm-suppress PossiblyNullArrayOffset */
+        if (! \is_int($offset) && ! \is_string($offset)) {
+            throw new \InvalidArgumentException('Offset needs to be an integer or string');
+        }
+
         $this->data[$offset] = $value;
     }
 
     public function offsetUnset(mixed $offset): void
     {
+        if (! \is_int($offset) && ! \is_string($offset)) {
+            throw new \InvalidArgumentException('Offset needs to be an integer or string');
+        }
+
         unset($this->data[$offset]);
     }
 }
